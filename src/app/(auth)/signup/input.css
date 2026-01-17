@@ -1,0 +1,30 @@
+.phone-input {
+    border: none !important;
+}
+
+.react-international-phone-input-container .react-international-phone-input {
+    overflow: visible;
+    height: var(--react-international-phone-height, 36px);
+    box-sizing: border-box;
+    padding: 0 8px;
+    border: none !important;
+    font-size: 16px !important;
+}
+
+.react-international-phone-input-container {
+  background: transparent;
+}
+
+/* COUNTRY DROPDOWN */
+.react-international-phone-country-selector-dropdown {
+  background-color: #ffffff !important; 
+  border: none !important;
+  outline: none !important;
+  z-index: 50; 
+}
+
+/* Dropdown arrow polish */
+.react-international-phone-country-selector-button__dropdown-arrow {
+  margin-left: 0.25rem;
+  opacity: 0.6;
+}

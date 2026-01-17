@@ -1,9 +1,6 @@
-import type { NextConfig } from "next";
-
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  turbopack: {
-    root: __dirname, // explicitly sets workspace root to /client
-  },
+  reactStrictMode: true,
 };
 
-export default nextConfig;
+module.exports = nextConfig;
