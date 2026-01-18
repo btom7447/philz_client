@@ -17,6 +17,10 @@ p, span, a, li {
   font-family: var(--font-lora);
 }
 
+.signature {
+  font-family: var(--font-babylonica), cursive;
+}
+
 
 /* * {
   outline: red solid 1px

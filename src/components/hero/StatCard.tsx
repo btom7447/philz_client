@@ -6,9 +6,10 @@ type DotPosition = "top" | "top-left" | "bottom-left";
 
 interface StatCardProps {
   icon: ReactNode;
-  value: string;
+  value: ReactNode;
   label: string;
   dotPosition?: DotPosition;
+  about?: boolean;
 }
 
 export default function StatCard({
@@ -16,25 +17,33 @@ export default function StatCard({
   value,
   label,
   dotPosition = "top",
+  about = false,
 }: StatCardProps) {
-  const dotPositionClasses: Record<DotPosition, string> = {
-    top: "-top-1 left-1/2 -translate-x-1/2",
-    "top-left": "-top-1 -left-1",
-    "bottom-left": "-bottom-1 -left-1",
-  };
+  const textColor = about ? "text-white" : "text-black";
+  const subTextColor = about ? "text-white/80" : "text-gray-500";
+  const iconColor = about ? "text-white" : "text-purple-700";
+  const dotColor = about ? "bg-white/60" : "bg-purple-600/40";
 
   return (
-    <div className="flex flex-col items-start gap-3">
-      <div className="relative">
-        <span
-          className={`absolute w-5 h-5 rounded-full bg-purple-700/30 ${dotPositionClasses[dotPosition]}`}
-        />
-        <div className="text-purple-800">{icon}</div>
-      </div>
+    <div className="relative flex items-center gap-4">
+      {/* Decorative Dot */}
+      <span
+        className={`absolute w-5 h-5 rounded-full ${dotColor}
+          ${dotPosition === "top" ? "-top-2 left-1/2 -translate-x-1/2" : ""}
+          ${dotPosition === "top-left" ? "-top-1 left-1" : ""}
+          ${dotPosition === "bottom-left" ? "-bottom-1 left-2" : ""}
+        `}
+      />
+
+      <div className={iconColor}>{icon}</div>
 
       <div>
-        <p className="font-semibold text-2xl lg:text-4xl text-black">{value}</p>
-        <p className="mt-2 text-gray-500 font-roboto text-xl">{label}</p>
+        <div className={`text-3xl xl:text-5xl font-light font-lora ${textColor}`}>
+          {value}
+        </div>
+        <p className={`text-lg font-roboto ${subTextColor}`}>
+          {label}
+        </p>
       </div>
     </div>
   );

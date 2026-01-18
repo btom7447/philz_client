@@ -25,6 +25,7 @@ export default function Header() {
   };
 
   const [menuOpen, setMenuOpen] = useState(false);
+  const [prevIndex, setPrevIndex] = useState(0);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -56,19 +57,37 @@ export default function Header() {
           </button>
 
           <ul className="hidden md:flex space-x-6 font-roboto text-gray-700 ml-10">
-            {navLinks.map((link) => {
+            {navLinks.map((link, index) => {
               const active = isActive(link.href);
+
+              const direction =
+                index > prevIndex ? "origin-left" : "origin-right";
+
               return (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className={`text-xl font-extralight transition-colors ${
-                      active
-                        ? "text-purple-800 font-light"
-                        : "text-gray-700 hover:text-purple-500"
-                    }`}
+                    onClick={() => setPrevIndex(index)}
+                    className={`relative text-xl font-extralight pb-2 px-1 transition-colors
+                      ${
+                        active
+                          ? "text-purple-800 font-light"
+                          : "text-gray-700 hover:text-purple-500"
+                      }
+                    `}
                   >
                     {link.name}
+
+                    {/* Active underline */}
+                    <span
+                      className={`
+                        absolute left-0 -bottom-2 h-0.5 w-full
+                        bg-purple-700
+                        transition-transform duration-300 ease-out
+                        ${active ? "scale-x-100" : "scale-x-0"}
+                        ${active ? direction : ""}
+                      `}
+                    />
                   </Link>
                 </li>
               );

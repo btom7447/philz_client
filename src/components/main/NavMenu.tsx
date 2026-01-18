@@ -6,6 +6,7 @@ import { X } from "lucide-react";
 import UserDropdown from "./UserDropdown";
 import { navLinks } from "./navLinks";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface NavMenuProps {
   open: boolean;
@@ -21,10 +22,18 @@ export default function NavMenu({
   onLogout,
 }: NavMenuProps) {
   const pathname = usePathname();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+      setMounted(true); // ensures client-side only
+    }, []);
+
 
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(href + "/");
 
+  if (!mounted) return null;
+  
   const menu = (
     <div
       className={`fixed inset-0 z-50 transition-opacity duration-300 ${

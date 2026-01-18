@@ -10,6 +10,7 @@ module.exports = {
       fontFamily: {
         lora: ["var(--font-lora)", "serif"],
         roboto: ["var(--font-roboto)", "sans-serif"],
+        babylonica: ["var(--font-babylonica)", "serif"]
       },
     },
   },

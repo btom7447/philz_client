@@ -2,10 +2,12 @@ import "./globals.css";
 import "aos/dist/aos.css";
 import "@splidejs/splide/dist/css/splide.min.css";
 import "react-international-phone/style.css";
-import { lora, roboto } from "./utils/fonts";
+import "leaflet/dist/leaflet.css";
+import { lora, roboto, babylonica } from "./utils/fonts";
 import type { Metadata } from "next";
 import { Toaster } from "sonner";
 import Header from "@/components/main/Header";
+import Footer from "@/components/main/Footer";
 
 export const metadata: Metadata = {
   title: "Philz Properties",
@@ -21,11 +23,12 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${lora.variable} ${roboto.variable} antialiased`}>
+      <body
+        className={`${lora.variable} ${roboto.variable} ${babylonica.variable} antialiased`}
+      >
         <Header />
-        <div className="bg-gray-100/80">
-          {children}
-        </div>
+        <div className="bg-purple-50 pt-25">{children}</div>
+        <Footer />
         <Toaster position="top-right" richColors />
       </body>
     </html>
