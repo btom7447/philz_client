@@ -11,8 +11,6 @@ import { useAuthStore } from "@/app/store/useAuthStore";
 
 export default function LoginForm() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const nextPage = searchParams.get("next") || "/";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,6 +19,14 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const setUser = useAuthStore((state) => state.setUser);
+
+  const [nextPage, setNextPage] = useState("/");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setNextPage(params.get("next") || "/");
+  }, []);
+
 
   useEffect(() => {
     AOS.init({ duration: 800, easing: "ease-in-out", once: true });
