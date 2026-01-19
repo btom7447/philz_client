@@ -1,7 +1,10 @@
 import { requireRole } from "../lib/guards";
+import AdminDashboard from "@/components/admin/AdminDashboard";
 
-export default async function AdminDashboard() {
-  const user = await requireRole(["admin"], "/admin");
+export default async function AdminDashboardPage() {
+  // Server-side role check
+  await requireRole(["admin"], "/admin");
 
-  return <div>Welcome, {user.email} (Admin Dashboard)</div>;
+  // Pass props if needed
+  return <AdminDashboard />;
 }
