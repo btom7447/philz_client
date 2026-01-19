@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { adminLinks } from "./adminLinks";
 import { LogOut } from "lucide-react";
-import { useAuthStore } from "@/app/store/useAuthStore";
+import { useAuthStore } from "app/store/useAuthStore";
 import Image from "next/image";
 
 export default function AdminSidebar({ onClose }: { onClose?: () => void }) {

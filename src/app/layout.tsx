@@ -7,8 +7,8 @@ import "react-international-phone/style.css";
 import "leaflet/dist/leaflet.css";
 import { lora, roboto, babylonica } from "./utils/fonts";
 import { Toaster } from "sonner";
-import Header from "@/components/main/Header";
-import Footer from "@/components/main/Footer";
+import Header from "components/main/Header";
+import Footer from "components/main/Footer";
 import { usePathname } from "next/navigation";
 
 export default function RootLayout({

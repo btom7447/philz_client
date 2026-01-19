@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthStore } from "@/app/store/useAuthStore";
+import { useAuthStore } from "app/store/useAuthStore";
 
 export default function AdminDashboard() {
   const user = useAuthStore((state) => state.user);

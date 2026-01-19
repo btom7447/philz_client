@@ -1,7 +1,7 @@
 "use client";
 
 import { Menu, Bell, Map, Calendar } from "lucide-react";
-import { useAuthStore } from "@/app/store/useAuthStore";
+import { useAuthStore } from "app/store/useAuthStore";
 import { usePathname } from "next/navigation";
 
 export default function AdminHeader({

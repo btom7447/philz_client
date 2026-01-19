@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthStore } from "@/app/store/useAuthStore";
+import { useAuthStore } from "app/store/useAuthStore";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, User as UserIcon } from "lucide-react";

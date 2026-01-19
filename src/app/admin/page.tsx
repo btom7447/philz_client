@@ -1,5 +1,5 @@
 import { requireRole } from "../lib/guards";
-import AdminDashboard from "@/components/admin/AdminDashboard";
+import AdminDashboard from "components/admin/AdminDashboard";
 
 export default async function AdminDashboardPage() {
   // Server-side role check

@@ -1,8 +1,8 @@
 "use client";
 
 import { ReactNode, useState } from "react";
-import AdminSidebar from "@/components/admin/AdminSidebar";
-import AdminHeader from "@/components/admin/AdminHeader";
+import AdminSidebar from "components/admin/AdminSidebar";
+import AdminHeader from "components/admin/AdminHeader";
 import { Toaster } from "sonner";
 
 export default function AdminLayout({ children }: { children: ReactNode }) {

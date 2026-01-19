@@ -7,7 +7,7 @@ import AOS from "aos";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { ClipLoader } from "react-spinners";
-import { useAuthStore } from "@/app/store/useAuthStore";
+import { useAuthStore } from "app/store/useAuthStore";
 
 export default function LoginForm() {
   const router = useRouter();
