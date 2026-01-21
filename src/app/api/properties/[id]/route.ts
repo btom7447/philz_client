@@ -4,9 +4,11 @@ import cloudinary from "@/app/lib/cloudinary";
 
 export const PATCH = async (
   req: NextRequest,
-  { params }: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ) => {
   try {
+    const { id } = await context.params; // ✅ IMPORTANT
+
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
 
@@ -32,21 +34,15 @@ export const PATCH = async (
         resource_type: "image" | "video";
       }>((resolve, reject) => {
         cloudinary.uploader
-          .upload_stream(
-            {
-              folder,
-              resource_type,
-            },
-            (err, result) => {
-              if (err || !result) return reject(err);
+          .upload_stream({ folder, resource_type }, (err, result) => {
+            if (err || !result) return reject(err);
 
-              resolve({
-                url: result.secure_url,
-                public_id: result.public_id,
-                resource_type,
-              });
-            },
-          )
+            resolve({
+              url: result.secure_url,
+              public_id: result.public_id,
+              resource_type,
+            });
+          })
           .end(buffer);
       });
     };
@@ -74,7 +70,7 @@ export const PATCH = async (
     payload.videos = videoUrls;
 
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/properties/${params.id}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/properties/${id}`,
       {
         method: "PATCH",
         headers: {

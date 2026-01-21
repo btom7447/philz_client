@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import cloudinary from "@/app/lib/cloudinary";
 
-export const POST = async (req: NextRequest) => {
+export const POST = async (req: NextRequest): Promise<Response> => {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
@@ -29,21 +29,15 @@ export const POST = async (req: NextRequest) => {
         resource_type: "image" | "video";
       }>((resolve, reject) => {
         cloudinary.uploader
-          .upload_stream(
-            {
-              folder,
-              resource_type,
-            },
-            (err, result) => {
-              if (err || !result) return reject(err);
+          .upload_stream({ folder, resource_type }, (err, result) => {
+            if (err || !result) return reject(err);
 
-              resolve({
-                url: result.secure_url,
-                public_id: result.public_id,
-                resource_type,
-              });
-            },
-          )
+            resolve({
+              url: result.secure_url,
+              public_id: result.public_id,
+              resource_type,
+            });
+          })
           .end(buffer);
       });
     };
@@ -57,7 +51,7 @@ export const POST = async (req: NextRequest) => {
     );
 
     // rebuild payload
-    const payload: any = {};
+    const payload: Record<string, any> = {};
     formData.forEach((value, key) => {
       if (key !== "images" && key !== "videos") {
         try {
@@ -71,7 +65,6 @@ export const POST = async (req: NextRequest) => {
     payload.images = imageUrls;
     payload.videos = videoUrls;
 
-    // forward to FastAPI backend
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/properties`,
       {
@@ -85,7 +78,6 @@ export const POST = async (req: NextRequest) => {
     );
 
     const data = await res.json();
-
     return NextResponse.json(data, { status: res.status });
   } catch (err) {
     console.error("Create property error:", err);
