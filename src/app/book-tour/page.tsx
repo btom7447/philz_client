@@ -12,7 +12,7 @@ export default function ContactPage() {
       <Breadcrumb
         title="Book Tour"
         current="Tour"
-        backgroundImage="/breadcrumb/contact.jpg"
+        backgroundImage="/breadcrumb/tour.jpg"
       />
 
       <div className="max-w-7xl mx-auto px-5 xl:px-0 py-20 grid lg:grid-cols-2 gap-16">

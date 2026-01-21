@@ -122,7 +122,7 @@ export default function FilterInput({ onFilterChange }: FilterInputProps) {
                     <Select.Viewport className="p-2 outline-0">
                       <Select.Item
                         value="all"
-                        className="px-4 py-3 text-lgp text-gray-500 font-roboto cursor-pointer
+                        className="px-4 py-3 text-lg text-gray-500 font-roboto cursor-pointer
                            focus:text-purple-700 rounded-lg data-[state=checked]:text-purple-700 data-[state=checked]:bg-purple-200 outline-0"
                       >
                         <Select.ItemText>Property Type</Select.ItemText>
@@ -130,7 +130,7 @@ export default function FilterInput({ onFilterChange }: FilterInputProps) {
 
                       <div className="my-1 h-px bg-gray-100" />
 
-                      {["apartment", "house", "office"].map((type) => (
+                      {["apartment", "house", "office", "shop"].map((type) => (
                         <Select.Item
                           key={type}
                           value={type}

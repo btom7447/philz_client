@@ -10,6 +10,7 @@ import { Toaster } from "sonner";
 import Header from "components/main/Header";
 import Footer from "components/main/Footer";
 import { usePathname } from "next/navigation";
+import { Providers } from "./providers";
 
 export default function RootLayout({
   children,
@@ -19,17 +20,29 @@ export default function RootLayout({
   const pathname = usePathname();
 
   // Only show header/footer if NOT under /admin
-  const showHeaderFooter = !pathname.startsWith("/admin");
+const showHeaderFooter = !(
+  pathname.startsWith("/admin") ||
+  pathname.startsWith("/user") ||
+  pathname.startsWith("/login") ||
+  pathname.startsWith("/signup") ||
+  pathname.startsWith("/forgot-password")
+);
 
   return (
     <html lang="en">
       <body
         className={`${lora.variable} ${roboto.variable} ${babylonica.variable} antialiased`}
       >
-        {showHeaderFooter && <Header />}
-        <div className={`bg-purple-50 overflow-hidden ${!showHeaderFooter ? "pt-0" : "pt-25"}`}>{children}</div>
-        {showHeaderFooter && <Footer />}
-        <Toaster position="top-right" richColors />
+        <Providers>
+          {showHeaderFooter && <Header />}
+          <div
+            className={`bg-purple-50 overflow-hidden ${!showHeaderFooter ? "pt-0" : "pt-25"}`}
+          >
+            {children}
+          </div>
+          {showHeaderFooter && <Footer />}
+          <Toaster position="top-right" richColors />
+        </Providers>
       </body>
     </html>
   );
