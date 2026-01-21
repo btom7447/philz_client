@@ -16,7 +16,7 @@ const PropertyFormWrapper: React.FC<Props> = ({ mode, initialValues }) => {
   return (
     <div className="bg-white border border-gray-300 rounded-lg w-full">
       {/* Tabs */}
-      <div className="w-ful flex gap-10 border-b border-gray-200 mb-10 relative px-5 pt-5 overflow-x-scroll lg:overflow-x-auto overflow-y-clip">
+      <div className="w-full h-fit overflow-y-hidden flex gap-10 border-b border-gray-200 mb-10 relative px-5 pt-5 overflow-x-scroll lg:overflow-x-auto ">
         {TABS.map((tab, i) => {
           const isActive = activeTab === i;
           const direction = i > prevIndex ? "origin-left" : "origin-right";
