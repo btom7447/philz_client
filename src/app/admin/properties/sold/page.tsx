@@ -1,9 +1,11 @@
+import SoldPropertiesDashboard from "./SoldPropertiesDashboard";
+
 export const metadata = {
-  title: "Sold Property | Admin | Philz Properties",
+  title: "Sold Properties | Admin | Philz Properties",
   description:
-    "Get in touch with Philz Properties for inquiries, support, or partnership opportunities. We’re here to help you find the right property.",
+    "View and manage sold property records, track sales history, and analyze performance on the Philz Properties admin dashboard.",
 };
 
 export default function SoldPropertiesPage() {
-  return <></>;
+  return <SoldPropertiesDashboard />;
 }

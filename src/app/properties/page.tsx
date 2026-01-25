@@ -7,7 +7,7 @@ export const metadata = {
 };
 
 
-export default function ContactPage() {
+export default function PropertiesPage() {
   return (
     <>
       <Breadcrumb
@@ -19,7 +19,9 @@ export default function ContactPage() {
         current="Contact"
         backgroundImage="/breadcrumb/listing.jpg"
       />
-      <div className="px-5 xl:px-0 "></div>
+      <div className="px-5 xl:px-0 ">
+        {/* <PropertiesPage /> */}
+      </div>
     </>
   );
 }

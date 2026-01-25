@@ -17,6 +17,7 @@ interface Props {
   setPropertyType: (v: IProperty["propertyType"] | "all") => void;
   status: IProperty["status"] | "all";
   setStatus: (v: IProperty["status"] | "all") => void;
+  addNew: boolean;
 }
 
 const PropertiesHeader: FC<Props> = ({
@@ -28,6 +29,7 @@ const PropertiesHeader: FC<Props> = ({
   setPropertyType,
   status,
   setStatus,
+  addNew, 
 }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -43,7 +45,9 @@ const PropertiesHeader: FC<Props> = ({
           Filters
         </button>
 
-        <AddPropertyButton />
+        <div className={`${!addNew ? "hidden" : "block"}`}>
+          <AddPropertyButton />
+        </div>
       </div>
 
       {/* Mobile accordion */}
@@ -112,7 +116,9 @@ const PropertiesHeader: FC<Props> = ({
 
         {/* Right: actions */}
         <div className="flex items-center gap-3">
-          <AddPropertyButton />
+          <div className={`${!addNew ? "hidden" : "block"}`}>
+            <AddPropertyButton />
+          </div>
           <ViewToggle view={view} setView={setView} />
         </div>
       </div>

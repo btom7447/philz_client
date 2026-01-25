@@ -2,13 +2,13 @@
 
 import { FC } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { IPropertyFormValues } from "../propertySchema";
+import { PropertyFormValues } from "../propertySchema";
 import FormInput from "../FormInput";
 import FormSelect from "../FormSelect";
 import FormTextarea from "../FormTextarea";
 
 interface Props {
-  form: UseFormReturn<IPropertyFormValues>;
+  form: UseFormReturn<PropertyFormValues>;
 }
 
 const BasicTab: FC<Props> = ({ form }) => {
@@ -52,6 +52,7 @@ const BasicTab: FC<Props> = ({ form }) => {
         type="text"
         label="Year Built"
         {...register("yearBuilt")}
+        error={errors.yearBuilt?.message}
       />
 
       <div className="col-span-1 lg:col-span-2">

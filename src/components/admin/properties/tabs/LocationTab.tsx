@@ -2,7 +2,7 @@
 
 import { FC, useMemo, useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { IPropertyFormValues } from "../propertySchema";
+import { PropertyFormValues } from "../propertySchema";
 import FormInput from "../FormInput";
 
 import dynamic from "next/dynamic";
@@ -25,7 +25,7 @@ const Marker = dynamic(
 );
 
 interface Props {
-  form: UseFormReturn<IPropertyFormValues>;
+  form: UseFormReturn<PropertyFormValues>;
 }
 
 // DynamicMarker to recenter map when coordinates change

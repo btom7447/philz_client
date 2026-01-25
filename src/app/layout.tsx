@@ -3,6 +3,8 @@
 import "./globals.css";
 import "aos/dist/aos.css";
 import "@splidejs/splide/dist/css/splide.min.css";
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
 import "react-international-phone/style.css";
 import "leaflet/dist/leaflet.css";
 import { lora, roboto, babylonica } from "./utils/fonts";
@@ -43,6 +45,7 @@ const showHeaderFooter = !(
           {showHeaderFooter && <Footer />}
           <Toaster position="top-right" richColors />
         </Providers>
+        <div id="modal-root" />
       </body>
     </html>
   );

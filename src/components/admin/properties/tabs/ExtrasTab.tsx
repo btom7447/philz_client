@@ -2,11 +2,11 @@
 
 import { FC } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { IPropertyFormValues } from "../propertySchema";
+import { PropertyFormValues } from "../propertySchema";
 import FormTextarea from "../FormTextarea";
 
 interface Props {
-  form: UseFormReturn<IPropertyFormValues>;
+  form: UseFormReturn<PropertyFormValues>;
 }
 
 const ExtrasTab: FC<Props> = ({ form }) => {

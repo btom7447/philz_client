@@ -9,7 +9,7 @@ interface Props extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 
 const FormTextarea: FC<Props> = ({ label, error, ...props }) => {
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 p-1">
       <label className="text-lg lg:text-xl font-semibold text-gray-700">
         {label}
       </label>
@@ -25,7 +25,7 @@ const FormTextarea: FC<Props> = ({ label, error, ...props }) => {
         `}
       />
 
-      {error && <p className="text-md text-red-500">{error}</p>}
+      {/* {error && <p className="text-md text-red-500">{error}</p>} */}
     </div>
   );
 };

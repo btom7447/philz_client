@@ -32,6 +32,29 @@ export default function Header() {
     AOS.init({ duration: 800, easing: "ease-in-out", once: true });
   }, []);
 
+  useEffect(() => {
+    const syncSession = async () => {
+      try {
+        const res = await fetch("/api/auth/session", {
+          credentials: "include",
+        });
+
+        if (!res.ok) {
+          useAuthStore.getState().logout();
+          return;
+        }
+
+        const data = await res.json();
+
+        useAuthStore.getState().syncFromSession(data.user);
+      } catch {
+        useAuthStore.getState().logout();
+      }
+    };
+
+    syncSession();
+  }, []);
+
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(href + "/");
 
@@ -118,7 +141,7 @@ export default function Header() {
                   />
                 ) : (
                   <span className="text-gray-500 font-light text-2xl flex items-center justify-center">
-                    {user.name.charAt(0).toUpperCase()}
+                    {user?.name?.charAt(0).toUpperCase()}
                   </span>
                 )
               ) : (

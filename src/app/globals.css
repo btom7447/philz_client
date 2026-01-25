@@ -21,6 +21,11 @@ p, span, a, li {
   font-family: var(--font-babylonica), cursive;
 }
 
+/* SLICK CAROUSE */
+.slick-prev:before, .slick-next:before {
+  font-size: 40px !important;
+  font-weight: 100 !important;
+}
 
 /* * {
   outline: red solid 1px

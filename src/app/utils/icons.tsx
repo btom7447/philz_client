@@ -1,0 +1,64 @@
+import {
+  Bed,
+  Bath,
+  Toilet,
+  CarFront,
+  ParkingSquare,
+  Dumbbell,
+  Trees,
+  Shield,
+  WavesLadder,
+  RulerDimensionLine,
+  Utensils,
+  Home,
+  Zap,
+  Wind,
+  Sun,
+  WashingMachine,
+  Store,
+  Building2,
+  Warehouse,
+  HelpCircle,
+  ToyBrick,
+  HandPlatter,
+  AirVent,
+  SolarPanel,
+  LampDesk,
+  Fence,
+  ShowerHead,
+} from "lucide-react";
+import { ReactNode } from "react";
+
+// All amenity keywords map to a single key and icon
+export const AMENITY_ICONS: Record<
+  string,
+  { icon: ReactNode; keywords: string[] }
+> = {
+  bedrooms: { icon: <Bed size={15} strokeWidth={1} />, keywords: ["bed", "bedroom"] },
+  bathrooms: { icon: <ShowerHead size={15} strokeWidth={1} />, keywords: ["bath", "shower"] },
+  toilets: { icon: <Toilet size={15} strokeWidth={1} />, keywords: ["toilet", "restroom"] },
+  parking: { icon: <ParkingSquare size={15} strokeWidth={1} />, keywords: ["park", "parking space"] },
+  garage: { icon: <CarFront size={15} strokeWidth={1} />, keywords: ["garage"] },
+  area: { icon: <RulerDimensionLine size={15} strokeWidth={1} />, keywords: ["area","sqft"] },
+
+  gym: { icon: <Dumbbell size={15} strokeWidth={1} />, keywords: ["gym"] },
+  pool: { icon: <WavesLadder size={15} strokeWidth={1} />, keywords: ["pool"] },
+  garden: { icon: <Trees size={15} strokeWidth={1} />, keywords: ["garden"] },
+  security: { icon: <Shield size={15} strokeWidth={1} />, keywords: ["security"] },
+
+  kitchen: { icon: <Utensils size={15} strokeWidth={1} />, keywords: ["kitchen"] },
+  restaurant: { icon: <HandPlatter size={15} strokeWidth={1} />, keywords: ["restaurant"] },
+  laundry: { icon: <WashingMachine size={15} strokeWidth={1} />, keywords: ["laundry"] },
+
+  AC: { icon: <AirVent size={15} strokeWidth={1} />, keywords: ["ac","air"] },
+  solar: { icon: <SolarPanel size={15} strokeWidth={1} />, keywords: ["solar"] },
+  electricity: { icon: <Zap size={15} strokeWidth={1} />, keywords: ["electricity"] },
+
+  office: { icon: <LampDesk size={15} strokeWidth={1} />, keywords: ["office"] },
+  shop: { icon: <Store size={15} strokeWidth={1} />, keywords: ["shop"] },
+  warehouse: { icon: <Warehouse size={15} strokeWidth={1} />, keywords: ["warehouse", "storage"] },
+
+  Playground: { icon: <ToyBrick size={15} strokeWidth={1} />, keywords: ["playground", "toys"] },
+  Fence: { icon: <Fence size={15} strokeWidth={1} />, keywords: ["fenced", "fenced compound", "compound"]}
+
+};

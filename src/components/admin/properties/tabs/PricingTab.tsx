@@ -2,12 +2,12 @@
 
 import { FC } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { IPropertyFormValues } from "../propertySchema";
+import { PropertyFormValues } from "../propertySchema";
 import FormInput from "../FormInput";
 import FormSelect from "../FormSelect";
 
 interface Props {
-  form: UseFormReturn<IPropertyFormValues>;
+  form: UseFormReturn<PropertyFormValues>;
 }
 
 const PricingTab: FC<Props> = ({ form }) => {
@@ -15,7 +15,12 @@ const PricingTab: FC<Props> = ({ form }) => {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-7">
-      <FormInput type="text" label="Price" {...register("price")} />
+      <FormInput
+        type="text"
+        label="Price"
+        formatThousands
+        {...register("price")}
+      />
       <FormSelect
         form={form}
         name="status"

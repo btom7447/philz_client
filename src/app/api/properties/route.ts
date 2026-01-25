@@ -1,86 +1,48 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import cloudinary from "@/app/lib/cloudinary";
 
-export const POST = async (req: NextRequest): Promise<Response> => {
+// CREATE property
+export const POST = async (req: NextRequest) => {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+
+  if (!token) {
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  }
+
+  const body = await req.json();
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/properties`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    },
+  );
+
+  const data = await res.json();
+  return NextResponse.json(data, { status: res.status });
+};
+
+
+// FETCH properties
+export const GET = async () => {
   try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
-
-    if (!token) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
-
-    const formData = await req.formData();
-
-    const images = formData.getAll("images") as File[];
-    const videos = formData.getAll("videos") as File[];
-
-    const upload = async (
-      file: File,
-      folder: string,
-      resource_type: "image" | "video",
-    ) => {
-      const buffer = Buffer.from(await file.arrayBuffer());
-
-      return new Promise<{
-        url: string;
-        public_id: string;
-        resource_type: "image" | "video";
-      }>((resolve, reject) => {
-        cloudinary.uploader
-          .upload_stream({ folder, resource_type }, (err, result) => {
-            if (err || !result) return reject(err);
-
-            resolve({
-              url: result.secure_url,
-              public_id: result.public_id,
-              resource_type,
-            });
-          })
-          .end(buffer);
-      });
-    };
-
-    const imageUrls = await Promise.all(
-      images.map((f) => upload(f, "philz-properties/images", "image")),
-    );
-
-    const videoUrls = await Promise.all(
-      videos.map((f) => upload(f, "philz-properties/videos", "video")),
-    );
-
-    // rebuild payload
-    const payload: Record<string, any> = {};
-    formData.forEach((value, key) => {
-      if (key !== "images" && key !== "videos") {
-        try {
-          payload[key] = JSON.parse(value as string);
-        } catch {
-          payload[key] = value;
-        }
-      }
-    });
-
-    payload.images = imageUrls;
-    payload.videos = videoUrls;
-
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/properties`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(payload),
-      },
+      { cache: "no-store" },
     );
 
     const data = await res.json();
-    return NextResponse.json(data, { status: res.status });
-  } catch (err) {
-    console.error("Create property error:", err);
-    return NextResponse.json({ message: "Server error" }, { status: 500 });
+    return NextResponse.json(data, { status: 200 });
+  } catch {
+    return NextResponse.json(
+      { message: "Failed to fetch properties" },
+      { status: 500 },
+    );
   }
 };

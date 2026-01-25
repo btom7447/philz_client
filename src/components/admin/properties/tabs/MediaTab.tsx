@@ -13,7 +13,6 @@ const MediaTab: FC<Props> = ({ files, setFiles }) => {
     type: "image" | "video" | "floorplan",
     newFiles: UploadFile[],
   ) => {
-    // Merge new files of this type with existing ones of other types
     setFiles([...files.filter((f) => f.type !== type), ...newFiles]);
   };
 

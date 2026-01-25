@@ -1,4 +1,5 @@
 import HeroSection from "@/components/hero/HeroSection";
+import RecentProperties from "@/components/hero/RecentPropereties";
 import SalesBanner from "@/components/main/SalesBanner";
 
 export const metadata = {
@@ -22,6 +23,7 @@ export default function HomePage() {
     <>
       <div className="max-w-7xl mx-auto px-5 xl:px-0 ">
         <HeroSection />
+        <RecentProperties />
       </div>
       <SalesBanner />
     </>

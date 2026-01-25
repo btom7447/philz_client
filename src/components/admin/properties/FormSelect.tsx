@@ -1,10 +1,10 @@
 "use client";
 
 import { FC } from "react";
-import { Controller, UseFormReturn } from "react-hook-form";
+import { Controller, FieldPath, UseFormReturn } from "react-hook-form";
 import * as Select from "@radix-ui/react-select";
 import { ChevronDown } from "lucide-react";
-import { IPropertyFormValues } from "./propertySchema";
+import { PropertyFormValues } from "./propertySchema";
 
 interface Option {
   value: string;
@@ -12,20 +12,20 @@ interface Option {
 }
 
 interface Props {
-  form: UseFormReturn<IPropertyFormValues>;
-  name: keyof IPropertyFormValues;
+  form: UseFormReturn<PropertyFormValues>;
+  name: FieldPath<PropertyFormValues>;
   label: string;
   options: Option[];
-  placeholder?: string; // optional custom placeholder
+  placeholder?: string;
 }
 
 const FormSelect: FC<Props> = ({ form, name, label, options, placeholder }) => {
   const { control, formState } = form;
-  const error = formState.errors[name]?.message as string | undefined;
+  const { error } = form.getFieldState(name, formState);
   const displayPlaceholder = placeholder || `Select ${label}`;
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 p-1">
       <label className="text-lg lg:text-xl font-semibold text-gray-700">
         {label}
       </label>
@@ -73,7 +73,7 @@ const FormSelect: FC<Props> = ({ form, name, label, options, placeholder }) => {
         )}
       />
 
-      {error && <p className="text-md text-red-500">{error}</p>}
+      {/* {error && <p className="text-md text-red-500">{error.message}</p>} */}
     </div>
   );
 };

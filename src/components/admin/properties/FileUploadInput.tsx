@@ -45,7 +45,7 @@ const FileUploadInput: FC<Props> = ({
   };
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 p-1">
       {/* Label */}
       <label className="text-lg lg:text-xl font-semibold text-gray-700">
         {label}
@@ -95,7 +95,7 @@ const FileUploadInput: FC<Props> = ({
         `}
       />
 
-      {error && <p className="text-xs text-red-500">{error}</p>}
+      {/* {error && <p className="text-xs text-red-500">{error}</p>} */}
     </div>
   );
 };

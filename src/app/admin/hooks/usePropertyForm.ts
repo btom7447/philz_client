@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { IPropertyFormValues } from "@/components/admin/properties/propertySchema";
+import { PropertyFormValues } from "@/components/admin/properties/propertySchema";
 
 const STORAGE_KEY = "admin_property_form_tab";
 
 export const TAB_FIELDS: Record<
   number,
-  (keyof IPropertyFormValues | string)[]
+  (keyof PropertyFormValues | string)[]
 > = {
   0: ["title", "description", "propertyType", "featured", "yearBuilt"],
   1: [
@@ -22,8 +22,8 @@ export const TAB_FIELDS: Record<
   6: ["additionalDetails"],
 };
 
-export const usePropertyForm = (defaultValues: IPropertyFormValues) => {
-  const form = useForm<IPropertyFormValues>({
+export const usePropertyForm = (defaultValues: PropertyFormValues) => {
+  const form = useForm<PropertyFormValues>({
     defaultValues,
     mode: "onChange",
   });
