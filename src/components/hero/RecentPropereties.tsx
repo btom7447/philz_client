@@ -119,7 +119,7 @@ export default function RecentProperties() {
             subtitle="Try a different type"
           />
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 items-stretch">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-10 items-stretch">
             {filteredProperties.map((property, index) => (
               <div
                 key={property._id}
