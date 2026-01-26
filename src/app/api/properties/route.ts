@@ -37,11 +37,18 @@ export const GET = async () => {
       { cache: "no-store" },
     );
 
+    if (!res.ok) {
+      const error = await res.json();
+      return NextResponse.json(error, { status: res.status });
+    }
+
     const data = await res.json();
+
+    // IMPORTANT: return raw array (same pattern as properties)
     return NextResponse.json(data, { status: 200 });
   } catch {
     return NextResponse.json(
-      { message: "Failed to fetch properties" },
+      { message: "Failed to fetch testimonials" },
       { status: 500 },
     );
   }

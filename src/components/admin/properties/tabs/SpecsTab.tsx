@@ -3,7 +3,7 @@
 import { FC } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { PropertyFormValues } from "../propertySchema";
-import FormInput from "../FormInput";
+import FormInput from "../../main/FormInput";
 
 interface Props {
   form: UseFormReturn<PropertyFormValues>;

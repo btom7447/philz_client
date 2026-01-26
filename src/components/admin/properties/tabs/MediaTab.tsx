@@ -1,7 +1,7 @@
 "use client";
 
 import { FC } from "react";
-import FileUploadInput, { UploadFile } from "../FileUploadInput";
+import FileUploadInput, { UploadFile } from "../../main/FileUploadInput";
 
 interface Props {
   files: UploadFile[];

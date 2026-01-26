@@ -3,7 +3,7 @@
 import { FC, useMemo, useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { PropertyFormValues } from "../propertySchema";
-import FormInput from "../FormInput";
+import FormInput from "../../main/FormInput";
 
 import dynamic from "next/dynamic";
 import { useMap } from "react-leaflet"; // normal import

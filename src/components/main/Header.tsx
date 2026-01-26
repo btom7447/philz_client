@@ -60,9 +60,9 @@ export default function Header() {
 
   return (
     <header className="w-full bg-white shadow-md fixed top-0 left-0 z-40">
-      <nav className="max-w-7xl mx-auto py-4 px-5 xl:px-0 flex items-center justify-between">
+      <nav className="max-w-7xl mx-auto py-2 xl:py-4 px-5 xl:px-0 flex items-center justify-between">
         <div className="flex gap-10 items-center justify-between lg:justify-start w-full md:w-auto">
-          <Link href="/" className="block relative w-25 h-20">
+          <Link href="/" className="block relative w-20 lg:w-25 h-15 lg:h-20">
             <Image
               src="/logo_one.png"
               alt="Logo"

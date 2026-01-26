@@ -3,9 +3,9 @@
 import { FC } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { PropertyFormValues } from "../propertySchema";
-import FormInput from "../FormInput";
-import FormSelect from "../FormSelect";
-import FormTextarea from "../FormTextarea";
+import FormInput from "../../main/FormInput";
+import FormSelect from "../../main/FormSelect";
+import FormTextarea from "../../main/FormTextarea";
 
 interface Props {
   form: UseFormReturn<PropertyFormValues>;

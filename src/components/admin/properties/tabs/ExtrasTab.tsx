@@ -3,7 +3,7 @@
 import { FC } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { PropertyFormValues } from "../propertySchema";
-import FormTextarea from "../FormTextarea";
+import FormTextarea from "../../main/FormTextarea";
 
 interface Props {
   form: UseFormReturn<PropertyFormValues>;

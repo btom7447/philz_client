@@ -4,7 +4,7 @@ import { FC } from "react";
 import { Controller, FieldPath, UseFormReturn } from "react-hook-form";
 import * as Select from "@radix-ui/react-select";
 import { ChevronDown } from "lucide-react";
-import { PropertyFormValues } from "./propertySchema";
+import { PropertyFormValues } from "../properties/propertySchema";
 
 interface Option {
   value: string;

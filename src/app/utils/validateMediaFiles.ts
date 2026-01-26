@@ -1,4 +1,4 @@
-import { UploadFile } from "@/components/admin/properties/FileUploadInput";
+import { UploadFile } from "@/components/admin/main/FileUploadInput";
 
 const MAX_IMAGE_COUNT = 10;
 const MAX_VIDEO_COUNT = 2;

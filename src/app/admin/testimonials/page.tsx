@@ -1,13 +1,11 @@
+import TestimonialDashboard from "./TestimonialDashboard";
+
 export const metadata = {
-  title: "Testimonials | Admin | Philz Properties",
+  title: "Manage Testimonials | Admin | Philz Properties",
   description:
-    "Get in touch with Philz Properties for inquiries, support, or partnership opportunities. We’re here to help you find the right property.",
+    "Admin dashboard to manage client testimonials for Philz Properties. Add, edit, or remove testimonials easily to showcase client feedback.",
 };
 
-export default function PropertiesPage() {
-  return (
-    <>
-      <h1>Admin Testimonials</h1>
-    </>
-  );
+export default function AdminTestimonialPage() {
+  return <TestimonialDashboard />
 }

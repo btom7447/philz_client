@@ -3,6 +3,11 @@
 import { FC, useEffect, useState } from "react";
 import PropertyCard from "./PropertyCard";
 
+export interface MediaFile {
+  url: string;
+  public_id: string;
+}
+
 export interface IProperty {
   _id: string;
   title: string;
@@ -21,9 +26,9 @@ export interface IProperty {
   sold: boolean;
   yearBuilt: number;
   amenities: string[];
-  images: string[];
-  videos: string[];
-  floorPlans: string[];
+  images?: MediaFile[];
+  videos?: MediaFile[];
+  floorPlans?: MediaFile[];
   additionalDetails: any;
   createdBy: string;
 }
@@ -50,7 +55,7 @@ const PropertiesList: FC<Props> = ({ view, properties, onSelectProperty }) => {
       className={
         view === "grid"
           ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 px-5"
-          : "grid grid-cols-1 xl:grid-cols-2 gap-4 px-5"
+          : "grid grid-cols-1 3xl:grid-cols-2 gap-4 px-5"
       }
     >
       {properties.map((property) => (

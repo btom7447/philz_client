@@ -11,7 +11,8 @@ import EmptySlate from "@/components/main/EmptySlate";
 import { ClipLoader } from "react-spinners";
 
 export default function PropertiesDashboard() {
-  const { data: properties = [], isLoading } = useProperties();
+  const { data, isLoading, isError, error } = useProperties();
+  const properties: IProperty[] = Array.isArray(data) ? data : [];
 
   const [view, setView] = useState<"grid" | "list">("grid");
   const [searchQuery, setSearchQuery] = useState("");
@@ -44,6 +45,18 @@ export default function PropertiesDashboard() {
     return (
       <div className="flex items-center justify-center h-screen">
         <ClipLoader size={50} color="#7c3aed" />
+      </div>
+    );
+
+  if (isError)
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <EmptySlate
+          title="Failed to load properties"
+          subtitle={
+            (error as Error)?.message || "An unexpected error occurred."
+          }
+        />
       </div>
     );
 

@@ -1,11 +1,11 @@
 import PropertiesDashboard from "./PropertiesDashboard";
 
 export const metadata = {
-  title: "Properties | Admin | Philz Properties",
+  title: "Manage Properties | Admin | Philz Properties",
   description:
-    "Get in touch with Philz Properties for inquiries, support, or partnership opportunities. We’re here to help you find the right property.",
+    "Admin dashboard to manage property listings, update details, and track availability for Philz Properties. Streamline property management efficiently.",
 };
 
-export default function PropertiesPage() {
-  return <PropertiesDashboard />
+export default function ManagePropertiesPage() {
+  return <PropertiesDashboard />;
 }

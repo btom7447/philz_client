@@ -27,6 +27,59 @@ p, span, a, li {
   font-weight: 100 !important;
 }
 
+/* UIVERSE TOGGLE */
+.approve-switch {
+  font-size: 14px;
+  position: relative;
+  display: inline-block;
+  width: 3.4em;
+  height: 1.8em;
+}
+
+.approve-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.approve-switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(182, 182, 182);
+  transition: 0.4s;
+  border-radius: 10px;
+}
+
+.approve-switch .slider:before {
+  position: absolute;
+  content: "";
+  height: 1.2em;
+  width: 1.2em;
+  border-radius: 8px;
+  left: 0.3em;
+  bottom: 0.3em;
+  transform: rotate(270deg);
+  background-color: rgb(255, 255, 255);
+  transition: 0.4s;
+}
+
+.approve-switch input:checked + .slider {
+  background-color: #7c3aed; /* brand purple-700 */
+}
+
+.approve-switch input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+.approve-switch input:checked + .slider:before {
+  transform: translateX(1.5em);
+}
+
+
 /* * {
   outline: red solid 1px
 } */
