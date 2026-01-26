@@ -6,7 +6,7 @@ import PropertyCard from "../main/PropertyCard";
 import EmptySlate from "../main/EmptySlate";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { IProperty, PropertyType } from "@/app/properties/type";
+import { IProperty, PropertyType } from "@/app/types/Properties";
 
 const TABS: ("all" | PropertyType)[] = [
   "all",
@@ -56,8 +56,6 @@ export default function RecentProperties() {
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
     )
     .slice(0, 6);
-
-    console.log("property data", properties)
 
   return (
     <section className="w-full my-20">
@@ -121,7 +119,7 @@ export default function RecentProperties() {
             subtitle="Try a different type"
           />
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 items-stretch">
             {filteredProperties.map((property, index) => (
               <div
                 key={property._id}

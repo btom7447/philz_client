@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { IProperty } from "@/app/properties/type";
+import { IProperty } from "@/app/types/Properties";
 import { Heart, Copy, Image as ImageIcon, Video, Map, MapPin, Star, ArrowLeftRight } from "lucide-react";
 import MediaModal from "./MediaModal";
 import Modal from "react-modal";
@@ -48,9 +48,9 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
   };
 
   return (
-    <div className="relative rounded-lg overflow-hidden bg-white shadow-lg transition">
+    <div className="relative h-full flex flex-col rounded-lg overflow-hidden bg-white shadow-lg transition">
       {/* Image */}
-      <div className="relative h-70 w-full bg-gray-100 overflow-hidden rounded-t-lg group">
+      <div className="relative h-70 w-full bg-gray-100 overflow-hidden rounded-t-lg group shrink-0">
         {property.images?.[0]?.url ? (
           <Image
             src={optimizeCloudinary(property.images[0].url, 600)}
@@ -89,7 +89,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
       </div>
 
       {/* Info */}
-      <div className="px-4 pt-4 space-y-2">
+      <div className="px-4 pt-4 space-y-2 flex-1">
         <h3 className="text-xl font-semibold">{property.title}</h3>
         <div className="flex items-start gap-2">
           <MapPin
@@ -111,7 +111,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
             </p>
           </div>
         </div>
-        <div className="flex flex-wrap gap-3 mt-3 pb-3 text-gray-500 text-sm border-b border-gray-300">
+        <div className="flex flex-wrap gap-3 mt-3 text-gray-500 text-sm">
           <AmenityIcon amenity={`${property.area} sqft`} />
           <AmenityIcon amenity={`${property.toilets} Toilets`} />
           {["house", "apartment"].includes(property.propertyType) && (
@@ -129,7 +129,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
       </div>
 
       {/* Agent & Price */}
-      <div className="px-4 py-2 flex items-center justify-between">
+      <div className="mt-2 px-4 py-2 flex items-center justify-between shrink-0 border-t border-gray-300">
         {/* Agency info */}
         <div className="flex items-center gap-2">
           <div className="relative h-10 w-10 overflow-hidden">
@@ -152,7 +152,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
       </div>
 
       {/* Actions */}
-      <div className="mt-1 flex w-full justify-evenly">
+      <div className="mt-1 flex w-full justify-evenly shrink-0">
         <button
           onClick={() => {
             setIsFavourite((v) => {

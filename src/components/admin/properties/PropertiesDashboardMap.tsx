@@ -3,7 +3,7 @@
 import { FC, useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
-import { IProperty } from "./PropertiesList";
+import { IProperty } from "@/app/types/Properties";
 
 // Pin icon
 const homeIcon = new L.Icon({

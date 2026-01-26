@@ -1,10 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { IProperty } from "@/app/types/Properties";
 import PropertiesHeader from "@/components/admin/properties/PropertiesHeader";
-import PropertiesList, {
-  IProperty,
-} from "@/components/admin/properties/PropertiesList";
+import PropertiesList from "@/components/admin/properties/PropertiesList";
 import PropertiesDashboardMap from "@/components/admin/properties/PropertiesDashboardMap";
 import { useProperties } from "@/app/admin/hooks/useAdminData";
 import EmptySlate from "@/components/main/EmptySlate";

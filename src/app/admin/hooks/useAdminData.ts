@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetcher } from "@/app/lib/fetcher";
-import { IProperty } from "@/components/admin/properties/PropertiesList";
+import { IProperty } from "@/app/types/Properties";
 import { ITestimonial } from "@/app/types/Testimonial";
 
 // -------------------- PROPERTIES --------------------

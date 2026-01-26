@@ -5,7 +5,7 @@ export interface Address {
 
 export interface Location {
   type: "Point";
-  coordinates: [number, number]; // [lng, lat]
+  coordinates: [number, number];
 }
 
 export type PropertyType = "apartment" | "house" | "office" | "shop";
@@ -30,14 +30,14 @@ export interface IProperty {
   garages: number;
   price: number;
   status: PropertyStatus;
-  featured?: boolean;
-  sold?: boolean;
+  featured: boolean;
+  sold: boolean;
   yearBuilt: number;
-  amenities?: string[];
+  amenities: string[];
   images?: MediaFile[];
   videos?: MediaFile[];
   floorPlans?: MediaFile[];
-  additionalDetails?: string;
+  additionalDetails?: any;
   createdBy: string;
   createdAt: string;
   updatedAt: string;

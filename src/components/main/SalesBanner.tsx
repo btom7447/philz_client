@@ -16,13 +16,13 @@ export default function SalesBanner() {
         data-aos-duration="900"
         data-aos-easing="ease-out-cubic"
       >
-        <h6 className="text-purple-700 font-medium text-3xl tracking-wide">
+        <span className="text-black font-medium text-3xl tracking-wide">
           Luxury Properties
-        </h6>
+        </span>
 
         <h1
           id="hero-heading"
-          className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight"
+          className="block text-4xl md:text-5xl font-bold text-purple-700 leading-tight"
         >
           For You
         </h1>

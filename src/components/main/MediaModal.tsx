@@ -5,7 +5,7 @@ import Slider from "react-slick";
 import Modal from "react-modal";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { MediaFile } from "@/app/properties/type";
+import { MediaFile } from "@/app/types/Properties";
 import { optimizeCloudinary } from "@/app/utils/optimizeCloudinary";
 import { X, Play, Pause, ZoomIn, ZoomOut } from "lucide-react";
 

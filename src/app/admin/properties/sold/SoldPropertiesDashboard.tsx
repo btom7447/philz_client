@@ -2,9 +2,8 @@
 
 import { useMemo, useState } from "react";
 import PropertiesHeader from "@/components/admin/properties/PropertiesHeader";
-import PropertiesList, {
-  IProperty,
-} from "@/components/admin/properties/PropertiesList";
+import { IProperty } from "@/app/types/Properties";
+import PropertiesList from "@/components/admin/properties/PropertiesList";
 import PropertiesDashboardMap from "@/components/admin/properties/PropertiesDashboardMap";
 import { useProperties } from "@/app/admin/hooks/useAdminData";
 import EmptySlate from "@/components/main/EmptySlate";

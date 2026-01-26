@@ -1,6 +1,7 @@
 import HeroSection from "@/components/hero/HeroSection";
 import RecentProperties from "@/components/hero/RecentPropereties";
 import SalesBanner from "@/components/main/SalesBanner";
+import TestimonialSection from "@/components/main/TestimonialSection";
 
 export const metadata = {
   title: "Philz Properties | Explore Unique Properties",
@@ -25,6 +26,7 @@ export default function HomePage() {
         <HeroSection />
         <RecentProperties />
       </div>
+      <TestimonialSection />
       <SalesBanner />
     </>
   );

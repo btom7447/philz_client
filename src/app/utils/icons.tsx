@@ -26,6 +26,8 @@ import {
   LampDesk,
   Fence,
   ShowerHead,
+  Droplet,
+  PlugZap,
 } from "lucide-react";
 import { ReactNode } from "react";
 
@@ -45,20 +47,18 @@ export const AMENITY_ICONS: Record<
   pool: { icon: <WavesLadder size={15} strokeWidth={1} />, keywords: ["pool"] },
   garden: { icon: <Trees size={15} strokeWidth={1} />, keywords: ["garden"] },
   security: { icon: <Shield size={15} strokeWidth={1} />, keywords: ["security"] },
-
   kitchen: { icon: <Utensils size={15} strokeWidth={1} />, keywords: ["kitchen"] },
   restaurant: { icon: <HandPlatter size={15} strokeWidth={1} />, keywords: ["restaurant"] },
   laundry: { icon: <WashingMachine size={15} strokeWidth={1} />, keywords: ["laundry"] },
-
   AC: { icon: <AirVent size={15} strokeWidth={1} />, keywords: ["ac","air"] },
   solar: { icon: <SolarPanel size={15} strokeWidth={1} />, keywords: ["solar"] },
   electricity: { icon: <Zap size={15} strokeWidth={1} />, keywords: ["electricity"] },
-
   office: { icon: <LampDesk size={15} strokeWidth={1} />, keywords: ["office"] },
   shop: { icon: <Store size={15} strokeWidth={1} />, keywords: ["shop"] },
   warehouse: { icon: <Warehouse size={15} strokeWidth={1} />, keywords: ["warehouse", "storage"] },
-
   Playground: { icon: <ToyBrick size={15} strokeWidth={1} />, keywords: ["playground", "toys"] },
-  Fence: { icon: <Fence size={15} strokeWidth={1} />, keywords: ["fenced", "fenced compound", "compound"]}
-
+  Fence: { icon: <Fence size={15} strokeWidth={1} />, keywords: ["fenced", "fenced compound", "compound"]},
+  Balcony: { icon: <Fence size={15} strokeWidth={1} />, keywords: ["balcony"]},
+  Water: { icon: <Droplet size={15} strokeWidth={1} />, keywords: ["water", "water supply"]},
+  Generator: { icon: <PlugZap size={15} strokeWidth={1} />, keywords: ["backup generator", "generator"] }
 };

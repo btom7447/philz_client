@@ -79,7 +79,17 @@ p, span, a, li {
   transform: translateX(1.5em);
 }
 
+.testimonial-heading::before {
+  content: "“";
+  position: absolute;
+  font-size: 30rem; /* adjust size to taste */
+  color: rgba(124, 58, 237, 0.1); /* soft, subtle purple */
+  right: 23rem; /* space from the heading */
+  top: -12rem;  /* vertically aligned */
+  z-index: -2; /* behind the heading text */
+}
 
-/* * {
+/* 
+* {
   outline: red solid 1px
 } */

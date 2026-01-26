@@ -3,7 +3,7 @@
 import { FC } from "react";
 import { Trash2, SquarePen } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { IProperty } from "./PropertiesList";
+import { IProperty } from "@/app/types/Properties";
 import AmenityIcon from "@/components/main/AmenityIcon";
 import { optimizeCloudinary } from "@/app/utils/optimizeCloudinary";
 
@@ -22,8 +22,8 @@ const PropertyCard: FC<Props> = ({ property, view, onSelect, onDelete }) => {
   return (
     <div
       onClick={() => onSelect(property._id)}
-      className={`bg-white rounded-xl shadow-sm hover:shadow-lg transition cursor-pointer overflow-hidden
-        ${view === "list" ? "flex" : "flex flex-col"}`}
+      className={`bg-white rounded-xl shadow-sm hover:shadow-lg transition cursor-pointer overflow-hidden h-full
+    ${view === "list" ? "flex" : "flex flex-col"}`}
     >
       {/* Image */}
       {hasImage && (

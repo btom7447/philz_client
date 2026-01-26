@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useState } from "react";
-import { IProperty } from "./PropertiesList";
+import { IProperty } from "@/app/types/Properties";
 import { Filter } from "lucide-react";
 import SearchInput from "./SearchInput";
 import SelectFilter from "./SelectFilter";
