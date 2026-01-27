@@ -1,32 +1,68 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { SlidersHorizontal } from "lucide-react";
 import * as Select from "@radix-ui/react-select";
 import { ChevronDown } from "lucide-react";
+import { PropertyTypeOption, PropertyStatusOption } from "@/app/types/Properties";
 
 interface FilterInputProps {
-  onFilterChange?: (filters: any) => void;
+  onFilterChange: (filters: {
+    status: string;
+    propertyType: string;
+    location: string;
+  }) => void;
 }
 
 export default function FilterInput({ onFilterChange }: FilterInputProps) {
-  const [status, setStatus] = useState("all");
-  const [propertyType, setPropertyType] = useState<"all" | string>("all");
+  const router = useRouter();
+
+  const [status, setStatus] = useState<PropertyStatusOption>("all");
+  const [propertyType, setPropertyType] = useState<PropertyTypeOption>("all");
   const [location, setLocation] = useState("");
-  const tabs = ["all", "for-rent", "for-sale"];
+  const tabs: PropertyStatusOption[] = ["all", "for rent", "for sale"];
   const [prevIndex, setPrevIndex] = useState(0);
 
+  // Build query object for /properties
+  const buildQuery = () => {
+    const query: Record<string, string> = {};
+
+    if (status !== "all") query.status = status;
+    if (propertyType !== "all") query.propertyType = propertyType;
+    if (location.trim()) query.location = location.trim();
+
+    return query;
+  };
+
+  const handleSearch = () => {
+    const query = buildQuery();
+    const params = new URLSearchParams(query).toString();
+
+    router.push(`/properties?${params}`);
+
+    // Notify parent
+    onFilterChange({
+      status,
+      propertyType,
+      location,
+    });
+
+    // Reset inputs
+    setLocation("");
+    setStatus("all");
+    setPropertyType("all");
+    setPrevIndex(0);
+  };
 
   const handleChange = (
     newStatus = status,
     newType = propertyType,
     newLoc = location,
   ) => {
-    onFilterChange?.({
-      status: newStatus,
-      propertyType: newType,
-      location: newLoc,
-    });
+    setStatus(newStatus);
+    setPropertyType(newType);
+    setLocation(newLoc);
   };
 
   return (
@@ -34,7 +70,7 @@ export default function FilterInput({ onFilterChange }: FilterInputProps) {
       {/* Tabs (Top) */}
       <div className="status-bar px-5 pt-5 border-b border-gray-200 w-fit bg-white rounded-t-lg">
         <div className="flex gap-5">
-          {["all", "for-rent", "for-sale"].map((s) => {
+          {tabs.map((s) => {
             const currentIndex = tabs.indexOf(s);
             const isActive = status === s;
             const direction =
@@ -43,23 +79,23 @@ export default function FilterInput({ onFilterChange }: FilterInputProps) {
             const label =
               s === "all"
                 ? "All"
-                : s.replace("-", " ").replace(/\b\w/g, (l) => l.toUpperCase());
+                : s
+                    .split(" ")
+                    .map((w) => w[0].toUpperCase() + w.slice(1))
+                    .join(" "); // capitalizes each word
 
             return (
               <button
                 key={s}
                 onClick={() => {
                   setPrevIndex(currentIndex);
-                  setStatus(s);
-                  handleChange(s);
+                  handleChange(s, propertyType, location);
                 }}
                 className={`relative text-xl text-gray-500 font-roboto  pb-2 px-3 transition-colors hover:cursor-pointer ${
                   isActive ? "text-black" : "hover:text-black"
                 }`}
               >
                 {label}
-
-                {/* Underline */}
                 <span
                   className={`
                     absolute left-0 -bottom-0.5 h-0.5 w-full
@@ -76,29 +112,24 @@ export default function FilterInput({ onFilterChange }: FilterInputProps) {
       </div>
 
       <div className="status-bar bg-white px-5 rounded-tr-lg shadow-2xl">
-        {/* Filters Row (Bottom) */}
         <div className="flex flex-col gap-4">
-          {/* Inputs Row */}
           <div className="flex flex-col xl:flex-row gap-3">
             <input
               type="text"
               value={location}
-              onChange={(e) => {
-                setLocation(e.target.value);
-                handleChange(undefined, undefined, e.target.value);
-              }}
+              onChange={(e) =>
+                handleChange(status, propertyType, e.target.value)
+              }
               placeholder="Enter an address, neighbourhood, city, or Zip code"
               className="w-full xl:w-2/3 bg-white py-5 outline-none font-roboto text-black text-xl placeholder:text-gray-500 placeholder:text-xl"
             />
 
-            {/* Property Type – 40% */}
             <div className="border-t border-gray-200 xl:border-t-0 xl:border-l w-full xl:w-1/3 relative">
               <Select.Root
                 value={propertyType}
-                onValueChange={(value) => {
-                  setPropertyType(value);
-                  handleChange(undefined, value);
-                }}
+                onValueChange={(value) =>
+                  handleChange(status, value as PropertyTypeOption, location)
+                }
               >
                 <Select.Trigger
                   className={`
@@ -150,9 +181,9 @@ export default function FilterInput({ onFilterChange }: FilterInputProps) {
           </div>
         </div>
       </div>
-      {/* Submit Row */}
+
       <button
-        onClick={() => handleChange()}
+        onClick={handleSearch}
         className="input-bar
           w-full flex items-center justify-center gap-3
           bg-purple-700 text-white

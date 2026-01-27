@@ -38,7 +38,7 @@ const showHeaderFooter = !(
         <Providers>
           {showHeaderFooter && <Header />}
           <div
-            className={`bg-purple-50 overflow-hidden ${!showHeaderFooter ? "pt-0" : "pt-25"}`}
+            className={`bg-purple-50 overflow-hidden ${!showHeaderFooter ? "pt-0" : "pt-19 xl:pt-25"}`}
           >
             {children}
           </div>

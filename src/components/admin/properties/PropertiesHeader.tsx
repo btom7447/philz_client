@@ -41,7 +41,7 @@ const PropertiesHeader: FC<Props> = ({
           onClick={() => setMobileOpen((o) => !o)}
           className="flex items-center gap-2 bg-purple-700 text-white font-roboto text-xl px-8 py-3 rounded-lg hover:bg-purple-800 transition cursor-pointer"
         >
-          <Filter className="w-5 h-5" />
+          <Filter className="w-5 h-5" strokeWidth={1} />
           Filters
         </button>
 
@@ -58,7 +58,7 @@ const PropertiesHeader: FC<Props> = ({
         }}
       >
         <div className="flex flex-col gap-3 pt-4 border-t border-gray-300 mt-2">
-          <ViewToggle view={view} setView={setView} />
+          {/* <ViewToggle view={view} setView={setView} /> */}
           <SearchInput value={searchQuery} onChange={setSearchQuery} />
           <SelectFilter
             value={propertyType}
@@ -89,7 +89,9 @@ const PropertiesHeader: FC<Props> = ({
       <div className="hidden 2xl:flex justify-between items-center">
         {/* Left: filters */}
         <div className="flex flex-wrap items-center gap-3">
-          <SearchInput value={searchQuery} onChange={setSearchQuery} />
+          <div className="min-w-50">
+            <SearchInput value={searchQuery} onChange={setSearchQuery} />
+          </div>
           <SelectFilter
             value={propertyType}
             onChange={(v) => setPropertyType(v as any)}

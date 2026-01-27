@@ -28,28 +28,29 @@ export const POST = async (req: NextRequest) => {
   return NextResponse.json(data, { status: res.status });
 };
 
-
 // FETCH properties
-export const GET = async () => {
+export const GET = async (req: NextRequest) => {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/properties`,
-      { cache: "no-store" },
-    );
+    const params = req.nextUrl.searchParams;
 
-    if (!res.ok) {
-      const error = await res.json();
-      return NextResponse.json(error, { status: res.status });
-    }
+    const query = new URLSearchParams({
+      page: params.get("page") || "1",
+      pageSize: params.get("pageSize") || "12",
+      sortBy: params.get("sortBy") || "createdAt:desc",
+      title: params.get("title") || "",
+      location: params.get("location") || "",
+      propertyType: params.get("propertyType") || "",
+      status: params.get("status") || "",
+      maxPrice: params.get("maxPrice") || "",
+      amenities: params.get("amenities") || "",
+    });
 
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/properties?${query}`, { cache: "no-store" });
     const data = await res.json();
 
-    // IMPORTANT: return raw array (same pattern as properties)
-    return NextResponse.json(data, { status: 200 });
-  } catch {
-    return NextResponse.json(
-      { message: "Failed to fetch testimonials" },
-      { status: 500 },
-    );
+    return NextResponse.json(data, { status: res.status });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 };

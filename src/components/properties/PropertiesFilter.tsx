@@ -1,135 +1,174 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import * as Select from "@radix-ui/react-select";
+import { useState, useMemo, useRef, useEffect } from "react";
+import SearchInput from "../admin/properties/SearchInput";
+import SelectFilter from "../admin/properties/SelectFilter";
+import { AMENITY_ICONS } from "@/app/utils/icons";
 import { ChevronDown } from "lucide-react";
+import {
+  PropertyFilters,
+  PropertyTypeOption,
+  PropertyStatusOption,
+  PropertyType,
+  PropertyStatus,
+} from "@/app/types/Properties";
 
-interface PropertiesFilterProps {
-  onChange: (filters: {
-    title?: string;
-    location?: string;
-    propertyType?: string;
-    status?: "for rent" | "for sale";
-    maxPrice?: number;
-  }) => void;
+interface Props {
+  onChange: (filters: PropertyFilters) => void;
+  amenities: string[];
 }
 
-export default function PropertiesFilter({ onChange }: PropertiesFilterProps) {
+export default function PropertiesFilter({ onChange, amenities }: Props) {
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
-  const [propertyType, setPropertyType] = useState("all");
-  const [status, setStatus] = useState("all");
+  const [propertyType, setPropertyType] = useState<PropertyTypeOption>("all");
+  const [status, setStatus] = useState<PropertyStatusOption>("all");
   const [maxPrice, setMaxPrice] = useState<number | "">("");
+  const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [amenitiesOpen, setAmenitiesOpen] = useState(false);
 
-  useEffect(() => {
-    onChange({
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [contentHeight, setContentHeight] = useState(0);
+
+  const computedFilters = useMemo(
+    () => ({
       title: title || undefined,
       location: location || undefined,
-      propertyType: propertyType !== "all" ? propertyType : undefined,
-      status:
-        status === "for rent"
-          ? "for rent"
-          : status === "for sale"
-            ? "for sale"
-            : undefined,
+      propertyType:
+        propertyType !== "all" ? (propertyType as PropertyType) : undefined,
+      status: status !== "all" ? (status as PropertyStatus) : undefined,
       maxPrice: maxPrice === "" ? undefined : maxPrice,
-    });
-  }, [title, location, propertyType, status, maxPrice, onChange]);
+      amenities: selectedAmenities.length ? selectedAmenities : undefined,
+    }),
+    [title, location, propertyType, status, maxPrice, selectedAmenities],
+  );
+
+  const toggleAmenity = (key: string) => {
+    setSelectedAmenities((prev) =>
+      prev.includes(key) ? prev.filter((a) => a !== key) : [...prev, key],
+    );
+  };
+
+  const handleReset = () => {
+    setTitle("");
+    setLocation("");
+    setPropertyType("all");
+    setStatus("all");
+    setMaxPrice("");
+    setSelectedAmenities([]);
+    onChange({});
+  };
+
+  const handleSearch = () => {
+    onChange(computedFilters);
+  };
+
+  // Measure content height for smooth toggle
+  useEffect(() => {
+    if (contentRef.current) {
+      setContentHeight(contentRef.current.scrollHeight);
+    }
+  }, [amenitiesOpen, amenities]);
 
   return (
-    <div className="flex flex-col gap-4 bg-white p-5 rounded-lg shadow-md">
-      {/* Title & Location */}
-      <div className="flex flex-col lg:flex-row gap-4">
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Search by title"
-          className="w-full p-3 border rounded-md outline-none"
-        />
-        <input
-          type="text"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          placeholder="City or State"
-          className="w-full p-3 border rounded-md outline-none"
-        />
-      </div>
+    <div className="bg-white xl:p-5 rounded-lg shadow-md w-full flex flex-col gap-5">
+      {/* Full width filter inputs */}
+      <SearchInput value={title} onChange={setTitle} placeholder="Title" />
+      <SearchInput
+        value={location}
+        onChange={setLocation}
+        placeholder="Location"
+      />
+      <SelectFilter
+        value={propertyType}
+        onChange={setPropertyType}
+        placeholder="Property Type"
+        options={[
+          { value: "all", label: "All Types" },
+          { value: "apartment", label: "Apartment" },
+          { value: "house", label: "House" },
+          { value: "office", label: "Office" },
+          { value: "shop", label: "Shop" },
+        ]}
+      />
+      <SelectFilter
+        value={status}
+        onChange={setStatus}
+        placeholder="Status"
+        options={[
+          { value: "all", label: "All Status" },
+          { value: "for sale", label: "For Sale" },
+          { value: "for rent", label: "For Rent" },
+        ]}
+      />
+      <SearchInput
+        value={maxPrice.toString()}
+        onChange={(v) =>
+          setMaxPrice(v === "" ? "" : Number(v.replace(/[^0-9]/g, "")))
+        }
+        placeholder="Max Price"
+      />
 
-      {/* Property Type & Status */}
-      <div className="flex flex-col lg:flex-row gap-4">
-        <Select.Root value={propertyType} onValueChange={setPropertyType}>
-          <Select.Trigger className="w-full p-3 border rounded-md flex justify-between items-center">
-            <Select.Value placeholder="Property Type" />
-            <Select.Icon>
-              <ChevronDown size={18} />
-            </Select.Icon>
-          </Select.Trigger>
-          <Select.Portal>
-            <Select.Content className="bg-white rounded-md shadow-md">
-              <Select.Viewport className="p-2">
-                {["all", "house", "apartment", "office", "shop"].map((type) => (
-                  <Select.Item
-                    key={type}
-                    value={type}
-                    className="px-4 py-2 rounded-md cursor-pointer hover:bg-purple-100"
-                  >
-                    <Select.ItemText>
-                      {type === "all"
-                        ? "All Types"
-                        : type.replace(/\b\w/g, (l) => l.toUpperCase())}
-                    </Select.ItemText>
-                  </Select.Item>
-                ))}
-              </Select.Viewport>
-            </Select.Content>
-          </Select.Portal>
-        </Select.Root>
-
-        <Select.Root value={status} onValueChange={setStatus}>
-          <Select.Trigger className="w-full p-3 border rounded-md flex justify-between items-center">
-            <Select.Value placeholder="Status" />
-            <Select.Icon>
-              <ChevronDown size={18} />
-            </Select.Icon>
-          </Select.Trigger>
-          <Select.Portal>
-            <Select.Content className="bg-white rounded-md shadow-md">
-              <Select.Viewport className="p-2">
-                {["all", "for rent", "for sale"].map((s) => (
-                  <Select.Item
-                    key={s}
-                    value={s}
-                    className="px-4 py-2 rounded-md cursor-pointer hover:bg-purple-100"
-                  >
-                    <Select.ItemText>
-                      {s === "all"
-                        ? "All Status"
-                        : s
-                            .replace("-", " ")
-                            .replace(/\b\w/g, (l) => l.toUpperCase())}
-                    </Select.ItemText>
-                  </Select.Item>
-                ))}
-              </Select.Viewport>
-            </Select.Content>
-          </Select.Portal>
-        </Select.Root>
-      </div>
-
-      {/* Max Price */}
-      <div className="flex flex-col lg:flex-row gap-4">
-        // Inside the Max Price input
-        <input
-          type="number"
-          value={maxPrice}
-          onChange={(e) => {
-            const value = e.target.value;
-            setMaxPrice(value === "" ? "" : Number(value));
+      {/* Amenities accordion */}
+      <div className="w-full">
+        <button
+          className="w-full text-left font-medium py-2 px-3 border-b border-gray-200 hover:bg-gray-50 transition flex justify-between items-center"
+          onClick={() => setAmenitiesOpen((o) => !o)}
+        >
+          Amenities
+          <ChevronDown
+            size={18}
+            strokeWidth={1}
+            className={`text-gray-500 transition-transform duration-300 ${
+              amenitiesOpen ? "rotate-180" : "rotate-0"
+            }`}
+          />
+        </button>
+        <div
+          ref={contentRef}
+          className="overflow-hidden transition-all duration-300"
+          style={{
+            maxHeight: amenitiesOpen ? `${contentHeight}px` : "0px",
           }}
-          placeholder="Max Price"
-          className="w-full p-3 border rounded-md outline-none"
-        />
+        >
+          <div className="flex flex-wrap gap-2 mt-2 w-full">
+            {amenities.map((key) => {
+              const active = selectedAmenities.includes(key);
+              const icon = AMENITY_ICONS[key]?.icon;
+              return (
+                <button
+                  key={key}
+                  onClick={() => toggleAmenity(key)}
+                  className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm border transition w-full sm:w-auto ${
+                    active
+                      ? "bg-purple-700 text-white border-purple-700"
+                      : "bg-gray-100 text-gray-700 border-gray-300 hover:bg-purple-100 hover:text-purple-700"
+                  }`}
+                >
+                  {icon}
+                  {key.charAt(0).toUpperCase() + key.slice(1)}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Buttons */}
+      <div className="flex flex-col gap-2 mt-4 w-full">
+        <button
+          onClick={handleSearch}
+          className="w-full bg-purple-700 text-white py-3 rounded-lg hover:bg-purple-800 transition"
+        >
+          Search
+        </button>
+        <button
+          onClick={handleReset}
+          className="w-full bg-gray-200 text-gray-700 py-3 rounded-lg hover:bg-gray-300 transition"
+        >
+          Reset
+        </button>
       </div>
     </div>
   );

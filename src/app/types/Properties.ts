@@ -16,6 +16,36 @@ export interface MediaFile {
   public_id: string;
 }
 
+export interface FetchPropertiesResponse {
+  items: IProperty[];
+  total: number;
+}
+
+export type PropertyTypeOption = PropertyType | "all";
+export type PropertyStatusOption = PropertyStatus | "all";
+
+export type PropertyFilters = {
+  title?: string;
+  location?: string;
+  propertyType?: PropertyType;
+  status?: PropertyStatus;
+  maxPrice?: number;
+  amenities?: string[];
+};
+
+export type SortOption =
+  | "createdAt:desc"
+  | "title:asc"
+  | "title:desc"
+  | "price:asc"
+  | "price:desc";
+
+export interface SortOptionItem {
+  value: SortOption;
+  label: string;
+  icon?: React.ReactNode; 
+}
+
 export interface IProperty {
   _id: string;
   title: string;

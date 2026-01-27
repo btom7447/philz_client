@@ -11,9 +11,10 @@ import AmenityIcon from "./AmenityIcon";
 
 interface PropertyCardProps {
   property: IProperty;
+  view?: "grid" | "list";
 }
 
-const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
+const PropertyCard: React.FC<PropertyCardProps> = ({ property, view = "grid" }) => {
   const [isFavourite, setIsFavourite] = useState(false);
   const [isCompare, setIsCompare] = useState(false);
   const [modalType, setModalType] = useState<"images" | "videos" | null>(null);
