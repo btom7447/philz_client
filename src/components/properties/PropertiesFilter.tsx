@@ -4,7 +4,7 @@ import { useState, useMemo, useRef, useEffect } from "react";
 import SearchInput from "../admin/properties/SearchInput";
 import SelectFilter from "../admin/properties/SelectFilter";
 import { AMENITY_ICONS } from "@/app/utils/icons";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ListRestart, SlidersHorizontal } from "lucide-react";
 import {
   PropertyFilters,
   PropertyTypeOption,
@@ -113,7 +113,7 @@ export default function PropertiesFilter({ onChange, amenities }: Props) {
       {/* Amenities accordion */}
       <div className="w-full">
         <button
-          className="w-full text-left font-medium py-2 px-3 border-b border-gray-200 hover:bg-gray-50 transition flex justify-between items-center"
+          className="w-full text-left font-medium text-lg py-2 px-3 border-b border-gray-200 hover:bg-gray-50 transition flex justify-between items-center cursor-pointer"
           onClick={() => setAmenitiesOpen((o) => !o)}
         >
           Amenities
@@ -140,7 +140,7 @@ export default function PropertiesFilter({ onChange, amenities }: Props) {
                 <button
                   key={key}
                   onClick={() => toggleAmenity(key)}
-                  className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm border transition w-full sm:w-auto ${
+                  className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm border transition w-full sm:w-auto cursor-pointer ${
                     active
                       ? "bg-purple-700 text-white border-purple-700"
                       : "bg-gray-100 text-gray-700 border-gray-300 hover:bg-purple-100 hover:text-purple-700"
@@ -159,14 +159,16 @@ export default function PropertiesFilter({ onChange, amenities }: Props) {
       <div className="flex flex-col gap-2 mt-4 w-full">
         <button
           onClick={handleSearch}
-          className="w-full bg-purple-700 text-white py-3 rounded-lg hover:bg-purple-800 transition"
+          className="w-full flex items-center justify-center gap-3 text-lg bg-purple-700 text-white py-3 rounded-lg hover:bg-purple-800 transition cursor-pointer"
         >
+          <SlidersHorizontal size={18} strokeWidth={1} />
           Search
         </button>
         <button
           onClick={handleReset}
-          className="w-full bg-gray-200 text-gray-700 py-3 rounded-lg hover:bg-gray-300 transition"
+          className="w-full  flex items-center justify-center gap-3 text-lg bg-gray-200 text-gray-700 py-3 rounded-lg hover:bg-gray-300 transition cursor-pointer"
         >
+          <ListRestart size={18} strokeWidth={1} />
           Reset
         </button>
       </div>

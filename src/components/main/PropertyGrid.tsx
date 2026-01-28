@@ -31,7 +31,7 @@ const PropertyGrid: React.FC<PropertyGridProps> = ({
   const skeletonCount = 6;
 
   // Skeleton height based on view
-  const skeletonHeight = view === "grid" ? "h-140" : "h-70";
+  const skeletonHeight = view === "grid" ? "h-140" : "h-65";
 
   return (
     <>

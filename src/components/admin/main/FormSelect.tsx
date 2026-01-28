@@ -1,25 +1,33 @@
-"use client";
-
 import { FC } from "react";
-import { Controller, FieldPath, UseFormReturn } from "react-hook-form";
+import {
+  Controller,
+  FieldPath,
+  UseFormReturn,
+  FieldValues,
+} from "react-hook-form";
 import * as Select from "@radix-ui/react-select";
 import { ChevronDown } from "lucide-react";
-import { PropertyFormValues } from "../properties/propertySchema";
 
 interface Option {
   value: string;
   label: string;
 }
 
-interface Props {
-  form: UseFormReturn<PropertyFormValues>;
-  name: FieldPath<PropertyFormValues>;
+interface Props<T extends FieldValues> {
+  form: UseFormReturn<T>;
+  name: FieldPath<T>;
   label: string;
   options: Option[];
   placeholder?: string;
 }
 
-const FormSelect: FC<Props> = ({ form, name, label, options, placeholder }) => {
+const FormSelect = <T extends FieldValues>({
+  form,
+  name,
+  label,
+  options,
+  placeholder,
+}: Props<T>) => {
   const { control, formState } = form;
   const { error } = form.getFieldState(name, formState);
   const displayPlaceholder = placeholder || `Select ${label}`;
@@ -35,19 +43,18 @@ const FormSelect: FC<Props> = ({ form, name, label, options, placeholder }) => {
         name={name}
         render={({ field }) => (
           <Select.Root
-            value={String(field.value ?? "")} // empty string for placeholder
+            value={String(field.value ?? "")}
             onValueChange={field.onChange}
           >
             <Select.Trigger
               className={`
                 flex items-center justify-between gap-2
-                bg-white border rounded-lg p-4
+                bg-transparent border rounded-lg p-4
                 text-lg outline-none
                 ${error ? "border-red-500" : "border-gray-300 focus:border-purple-600 focus:ring-1 focus:ring-purple-600"}
                 ${field.value ? "text-black" : "text-gray-500"}
               `}
             >
-              {/* Show placeholder if value is empty */}
               <Select.Value placeholder={displayPlaceholder} />
               <ChevronDown size={16} className="text-gray-400" />
             </Select.Trigger>
@@ -72,8 +79,6 @@ const FormSelect: FC<Props> = ({ form, name, label, options, placeholder }) => {
           </Select.Root>
         )}
       />
-
-      {/* {error && <p className="text-md text-red-500">{error.message}</p>} */}
     </div>
   );
 };

@@ -89,6 +89,29 @@ p, span, a, li {
   z-index: -2; /* behind the heading text */
 }
 
+.slick-dots li {
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin: 0 5px;
+    padding: 0;
+    cursor: pointer;
+}
+.slick-dots li div {
+    position: relative;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    padding: 0;
+    cursor: pointer;
+}
+.slick-dots .slick-active div {
+  padding: 8px;
+  background-color: white !important;
+  border: 2px solid #5d11a0 !important; 
+}
+
 /* 
 * {
   outline: red solid 1px

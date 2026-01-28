@@ -1,26 +1,40 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
-// You can keep this for clarity
 interface Params {
   id: string;
 }
 
-export const PUT = async (
-  req: NextRequest,
-  context: any, // bypass the strict Promise<Params> mismatch
-) => {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
-
-  if (!token) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-  }
-
-  const body = await req.json();
+export const GET = async (_: NextRequest, context: any) => {
+  const { id } = context.params as { id: string }; // cast to fix type
+  if (!id)
+    return NextResponse.json(
+      { message: "Property ID is required" },
+      { status: 400 },
+    );
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/properties/${context.params.id}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/properties/${id}`,
+    {
+      method: "GET",
+      cache: "no-store",
+    },
+  );
+
+  const data = await res.json();
+  return NextResponse.json(data, { status: res.status });
+};
+
+export const PUT = async (req: NextRequest, context: any) => {
+  const { id } = context.params as { id: string };
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+  if (!token)
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+
+  const body = await req.json();
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/properties/${id}`,
     {
       method: "PUT",
       headers: {
@@ -30,24 +44,19 @@ export const PUT = async (
       body: JSON.stringify(body),
     },
   );
-
   const data = await res.json();
   return NextResponse.json(data, { status: res.status });
 };
 
-export const DELETE = async (
-  _: NextRequest,
-  context: any, // bypass type mismatch
-) => {
+export const DELETE = async (_: NextRequest, context: any) => {
+  const { id } = context.params as { id: string };
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
-
-  if (!token) {
+  if (!token)
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-  }
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/properties/${context.params.id}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/properties/${id}`,
     {
       method: "DELETE",
       headers: {
@@ -55,7 +64,6 @@ export const DELETE = async (
       },
     },
   );
-
   const data = await res.json();
   return NextResponse.json(data, { status: res.status });
 };

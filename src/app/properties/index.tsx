@@ -4,22 +4,28 @@ import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import PropertiesFilter from "@/components/properties/PropertiesFilter";
 import PropertyGrid from "@/components/main/PropertyGrid";
+import ViewToggle from "@/components/admin/properties/ViewToggle";
+import SelectFilter from "@/components/admin/properties/SelectFilter";
 import {
   IProperty,
   PropertyFilters,
-  PropertyTypeOption,
-  PropertyStatusOption,
   PropertyType,
   PropertyStatus,
-  SortOptionItem,
   SortOption,
+  SortOptionItem,
 } from "../types/Properties";
 import { AMENITY_ICONS } from "../utils/icons";
-import ViewToggle from "@/components/admin/properties/ViewToggle";
-import SelectFilter from "@/components/admin/properties/SelectFilter";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { ArrowDown10, ArrowDownAZ, ArrowUp01, ArrowUpZA, Calendar, CalendarPlus, CalendarRange, Filter, X } from "lucide-react";
+import {
+  ArrowDown10,
+  ArrowDownAZ,
+  ArrowUp01,
+  ArrowUpZA,
+  CalendarPlus,
+  Filter,
+  X,
+} from "lucide-react";
 
 const sortOptions: SortOptionItem[] = [
   {
@@ -27,8 +33,16 @@ const sortOptions: SortOptionItem[] = [
     label: "Newest",
     icon: <CalendarPlus size={15} strokeWidth={1} />,
   },
-  { value: "title:asc", label: "Alphabetical", icon: <ArrowDownAZ size={15} strokeWidth={1} /> },
-  { value: "title:desc", label: "Reverse", icon: <ArrowUpZA size={15} strokeWidth={1} /> },
+  {
+    value: "title:asc",
+    label: "Alphabetical",
+    icon: <ArrowDownAZ size={15} strokeWidth={1} />,
+  },
+  {
+    value: "title:desc",
+    label: "Reverse",
+    icon: <ArrowUpZA size={15} strokeWidth={1} />,
+  },
   {
     value: "price:asc",
     label: "Price Low",
@@ -45,9 +59,6 @@ export default function PropertiesPageClient() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  // ----------------------
-  // State
-  // ----------------------
   const [filters, setFilters] = useState<PropertyFilters>({});
   const [properties, setProperties] = useState<IProperty[]>([]);
   const [loading, setLoading] = useState(true);
@@ -67,35 +78,28 @@ export default function PropertiesPageClient() {
   >({});
 
   // ----------------------
-  // Parse URL search params in a type-safe way
+  // Parse URL search params
   // ----------------------
   useEffect(() => {
     const urlFilters: PropertyFilters = {};
 
     const title = searchParams.get("title");
-    if (title) urlFilters.title = title;
-
     const location = searchParams.get("location");
-    if (location) urlFilters.location = location;
-
     const propertyTypeParam = searchParams.get("propertyType");
-    if (propertyTypeParam && propertyTypeParam !== "all") {
-      urlFilters.propertyType = propertyTypeParam as PropertyType;
-    }
-
     const statusParam = searchParams.get("status");
-    if (statusParam && statusParam !== "all") {
-      urlFilters.status = statusParam as PropertyStatus;
-    }
-
     const maxPrice = searchParams.get("maxPrice");
-    if (maxPrice) urlFilters.maxPrice = Number(maxPrice);
-
     const amenities = searchParams.get("amenities");
-    if (amenities) urlFilters.amenities = amenities.split(",");
-
     const page = Number(searchParams.get("page") || 1);
     const sort = (searchParams.get("sortBy") as SortOption) || "createdAt:desc";
+
+    if (title) urlFilters.title = title;
+    if (location) urlFilters.location = location;
+    if (propertyTypeParam && propertyTypeParam !== "all")
+      urlFilters.propertyType = propertyTypeParam as PropertyType;
+    if (statusParam && statusParam !== "all")
+      urlFilters.status = statusParam as PropertyStatus;
+    if (maxPrice) urlFilters.maxPrice = Number(maxPrice);
+    if (amenities) urlFilters.amenities = amenities.split(",");
 
     setFilters(urlFilters);
     setCurrentPage(page);
@@ -103,7 +107,7 @@ export default function PropertiesPageClient() {
   }, [searchParams]);
 
   // ----------------------
-  // Fetch properties (with cache)
+  // Fetch properties with caching
   // ----------------------
   const fetchProperties = useCallback(async () => {
     setLoading(true);
@@ -122,7 +126,6 @@ export default function PropertiesPageClient() {
 
     const cacheKey = JSON.stringify(queryObj);
 
-    // Return cached if available
     if (cacheRef.current[cacheKey]) {
       const cached = cacheRef.current[cacheKey];
       setProperties(cached.items);
@@ -139,7 +142,6 @@ export default function PropertiesPageClient() {
       setProperties(data.properties || []);
       setTotalItems(data.total || 0);
 
-      // Cache the result
       cacheRef.current[cacheKey] = {
         items: data.properties || [],
         total: data.total || 0,
@@ -151,13 +153,14 @@ export default function PropertiesPageClient() {
     }
   }, [filters, currentPage, sortBy, pageSize]);
 
-  // ----------------------
-  // Fetch + Sync URL
-  // ----------------------
   useEffect(() => {
     fetchProperties();
+  }, [fetchProperties]);
 
-    // Sync URL without reload (type-safe)
+  // ----------------------
+  // Sync URL with state
+  // ----------------------
+  useEffect(() => {
     const params = new URLSearchParams({
       page: currentPage.toString(),
       sortBy,
@@ -169,42 +172,39 @@ export default function PropertiesPageClient() {
       ...(filters.amenities && { amenities: filters.amenities.join(",") }),
     });
 
-    router.replace(`/properties?${params}`);
-  }, [filters, currentPage, sortBy, fetchProperties, router]);
+    const newUrl = `/properties?${params}`;
+    if (newUrl !== window.location.pathname + window.location.search) {
+      router.replace(newUrl);
+    }
+  }, [filters, currentPage, sortBy, router]);
 
-  // AOS 
-    useEffect(() => {
-      AOS.init({
-        duration: 600, // animation duration
-        easing: "ease-out",
-        once: true, // only animate once
-        offset: 50,
-      });
-    }, []);
+  // ----------------------
+  // AOS initialization
+  // ----------------------
+  useEffect(() => {
+    AOS.init({ duration: 600, easing: "ease-out", once: true, offset: 50 });
+  }, []);
 
   // ----------------------
   // Handle filter changes
   // ----------------------
   const handleFilterChange = useCallback((newFilters: PropertyFilters) => {
-    setCurrentPage(1); // Reset page on filter change
+    setCurrentPage(1);
     setFilters(newFilters);
   }, []);
 
-  // ----------------------
-  // Derived: total pages (type-safe)
-  // ----------------------
   const totalPages = useMemo(
     () => Math.ceil(totalItems / pageSize),
     [totalItems],
   );
 
   return (
-    <section className="relative max-w-7xl mx-auto px-5 py-10 flex flex-col lg:flex-row gap-6">
+    <section className="relative max-w-7xl mx-auto py-10 flex flex-col lg:flex-row gap-6">
       <div className="flex-1 flex flex-col gap-4">
         <div className="flex justify-between items-center gap-4">
           <div className="flex items-center gap-3">
             <button
-              className="flex items-center gap-2 xl:hidden bg-purple-700 text-white px-5 py-3  text-lg rounded-lg hover:bg-purple-800 transition"
+              className="flex items-center gap-2 xl:hidden bg-purple-700 text-white px-5 py-3 text-lg rounded-lg hover:bg-purple-800 transition"
               onClick={() => setMobileFilterOpen(true)}
             >
               Filter
@@ -212,12 +212,14 @@ export default function PropertiesPageClient() {
             </button>
             <SelectFilter<SortOption>
               value={sortBy}
-              onChange={(val) => setSortBy(val)}
+              onChange={setSortBy}
               placeholder="Sort By"
               options={sortOptions}
             />
           </div>
-          <ViewToggle view={view} setView={setView} />
+          <div className="hidden xl:block">
+            <ViewToggle view={view} setView={setView} />
+          </div>
         </div>
 
         <PropertyGrid
@@ -226,7 +228,7 @@ export default function PropertiesPageClient() {
           currentPage={currentPage}
           totalItems={totalItems}
           pageSize={pageSize}
-          onPageChange={(page: number) =>
+          onPageChange={(page) =>
             setCurrentPage(Math.min(Math.max(1, page), totalPages))
           }
           view={view}
@@ -240,10 +242,11 @@ export default function PropertiesPageClient() {
         />
       </aside>
 
-      {/* Mobile filter drawer */}
+      {/* Mobile Filter Drawer */}
       <div
-        className={`fixed top-0 right-0 h-full w-full sm:w-100 bg-white z-50 transform transition-transform duration-300 shadow-lg
-          ${mobileFilterOpen ? "translate-x-0" : "translate-x-full"}`}
+        className={`fixed top-0 right-0 h-full w-full sm:w-100 bg-white z-50 transform transition-transform duration-300 shadow-lg ${
+          mobileFilterOpen ? "translate-x-0" : "translate-x-full"
+        }`}
       >
         <div className="p-5 flex flex-col h-full">
           <div className="flex justify-between items-center mb-4">
@@ -255,12 +258,11 @@ export default function PropertiesPageClient() {
               <X size={18} strokeWidth={1} />
             </button>
           </div>
-
           <div className="overflow-y-auto flex-1">
             <PropertiesFilter
               onChange={(f) => {
                 handleFilterChange(f);
-                setMobileFilterOpen(false); // auto-close after filter
+                setMobileFilterOpen(false);
               }}
               amenities={Object.keys(AMENITY_ICONS)}
             />

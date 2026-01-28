@@ -39,14 +39,14 @@ export default function Breadcrumb({
             Home
           </Link>
 
-          <ChevronRight className="w-10 h-10" strokeWidth={1} />
+          <ChevronRight className="w-7 h-17" strokeWidth={1} />
 
           {parent && (
             <>
               <Link href={parent.href} className="hover:text-purple-700">
                 {parent.label}
               </Link>
-              <ChevronRight className="w-10 h-10" strokeWidth={1} />
+              <ChevronRight className="w-7 h-17" strokeWidth={1} />
             </>
           )}
 

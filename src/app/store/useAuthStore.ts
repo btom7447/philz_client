@@ -13,20 +13,51 @@ interface AuthState {
   user: User | null;
   setUser: (user: User) => void;
   logout: () => void;
-  syncFromSession: (user: User | null) => void;
+  syncFromSession: (user: Pick<User, "id" | "role"> | null) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       user: null,
-      setUser: (user: User) => set({ user }),
+
+      // Full overwrite (used on login)
+      setUser: (user) => set({ user }),
+
+      // Clear everything
       logout: () => set({ user: null }),
-      syncFromSession: (user) => set({ user }),
+
+      // Merge session data safely (id + role only)
+      syncFromSession: (sessionUser) =>
+        set((state) => {
+          if (!sessionUser) return { user: null };
+
+          // If no existing user, create minimal one
+          if (!state.user) {
+            return {
+              user: {
+                id: sessionUser.id,
+                role: sessionUser.role,
+                name: "",
+                email: "",
+                avatarUrl: "",
+              },
+            };
+          }
+
+          // Preserve everything except id & role
+          return {
+            user: {
+              ...state.user,
+              id: sessionUser.id,
+              role: sessionUser.role,
+            },
+          };
+        }),
     }),
     {
       name: "auth-storage",
-      partialize: (state) => ({ user: state.user }), // ✅ only persist user
+      partialize: (state) => ({ user: state.user }),
     },
   ),
 );

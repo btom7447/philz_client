@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import ClipLoader from "react-spinners/ClipLoader";
 import PropertyCard from "../main/PropertyCard";
 import EmptySlate from "../main/EmptySlate";
 import AOS from "aos";
@@ -29,7 +28,6 @@ export default function RecentProperties() {
         const res = await fetch("/api/properties");
         const json = await res.json();
 
-        // Extract the array from server response
         const data: IProperty[] = Array.isArray(json.properties)
           ? json.properties
           : [];
@@ -56,6 +54,12 @@ export default function RecentProperties() {
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
     )
     .slice(0, 6);
+
+  const isEmpty = !loading && filteredProperties.length === 0;
+
+  // Skeleton setup
+  const skeletonCount = 6;
+  const skeletonHeight = "h-140";
 
   return (
     <section className="w-full my-20">
@@ -110,10 +114,17 @@ export default function RecentProperties() {
       </div>
 
       {/* Grid / Loader / Empty */}
-      <div className="w-full min-h-50 flex justify-center items-center">
+      <div className="w-full min-h-[50vh] flex justify-center items-start overflow-hidden z-10">
         {loading ? (
-          <ClipLoader size={40} color="#6b21a8" />
-        ) : filteredProperties.length === 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-10 w-full">
+            {Array.from({ length: skeletonCount }).map((_, idx) => (
+              <div
+                key={idx}
+                className={`animate-pulse bg-gray-200 rounded-lg ${skeletonHeight} w-full`}
+              />
+            ))}
+          </div>
+        ) : isEmpty ? (
           <EmptySlate
             title="No properties found"
             subtitle="Try a different type"
@@ -124,7 +135,7 @@ export default function RecentProperties() {
               <div
                 key={property._id}
                 data-aos="fade-up"
-                data-aos-delay={index * 100} // 0ms, 100ms, 200ms, ...
+                data-aos-delay={index * 100}
                 data-aos-once="true"
               >
                 <PropertyCard property={property} />

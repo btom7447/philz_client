@@ -16,9 +16,9 @@ export default function Header() {
 
   const logout = async () => {
     try {
-      await fetch("/api/logout", { method: "POST" });
-      useAuthStore.getState().logout();
-      window.location.href = "/";
+      await fetch("/api/auth/logout", { method: "POST" }); // updated path
+      useAuthStore.getState().logout(); // clear client state
+      window.location.href = "/"; // redirect
     } catch (err) {
       console.error("Logout error:", err);
     }
