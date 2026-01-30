@@ -1,24 +1,35 @@
-// "use client";
+"use client";
 
-// import { IProperty } from "@/app/types/Properties";
+import { useState } from "react";
+import { IProperty } from "@/app/types/Properties";
+import VideoPreview from "./VideoPreview";
+import VideoModal from "./VideoModal";
 
-// interface Props {
-//   property: IProperty;
-// }
+interface Props {
+  property: IProperty;
+}
 
-// export default function PropertyVideos({ property }: Props) {
-//   if (!property.videos.length) return null;
+export default function PropertyVideos({ property }: Props) {
+  const videos = property?.videos;
+  const [open, setOpen] = useState(false);
 
-//   return (
-//     <section className="py-10">
-//       <h2 className="text-2xl font-semibold mb-4">Property Videos</h2>
-//       <div className="flex flex-col gap-4">
-//         {property.videos.map((video) => (
-//           <video key={video._id} controls className="w-full max-w-lg rounded">
-//             <source src={video.url} type="video/mp4" />
-//           </video>
-//         ))}
-//       </div>
-//     </section>
-//   );
-// }
+  if (!videos || videos.length === 0) return null;
+
+  return (
+    <section className="w-full px-5 xl:px-0">
+      <div className="max-w-7xl mx-auto">
+        <div className="border-l-2 border-purple-700 px-5 py-2 mt-10 mb-5">
+          <h2 className="text-3xl font-semibold">Property Videos</h2>
+        </div>
+
+        <VideoPreview onPlay={() => setOpen(true)} />
+
+        <VideoModal
+          videos={videos}
+          isOpen={open}
+          onClose={() => setOpen(false)}
+        />
+      </div>
+    </section>
+  );
+}

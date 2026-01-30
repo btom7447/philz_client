@@ -1,69 +1,137 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
-interface Params {
-  id: string;
-}
+type RouteContext = {
+  params: Promise<{ id: string }>;
+};
 
-export const GET = async (_: NextRequest, context: any) => {
-  const { id } = context.params as { id: string }; // cast to fix type
-  if (!id)
+// =================== PUT ===================
+export async function PUT(req: NextRequest, context: RouteContext) {
+  const params = await context.params;
+  const { id } = params;
+
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+
+  if (!token) {
     return NextResponse.json(
-      { message: "Property ID is required" },
+      { label: "Unauthorized", message: "No token found" },
+      { status: 401 },
+    );
+  }
+
+  let body: any;
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json(
+      { label: "InvalidBody", message: "Failed to parse JSON body" },
       { status: 400 },
     );
+  }
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/properties/${id}`,
-    {
-      method: "GET",
-      cache: "no-store",
-    },
-  );
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/properties/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
+      },
+    );
 
-  const data = await res.json();
-  return NextResponse.json(data, { status: res.status });
-};
+    const data = await res.json();
 
-export const PUT = async (req: NextRequest, context: any) => {
-  const { id } = context.params as { id: string };
+    if (!res.ok) {
+      return NextResponse.json(
+        {
+          label: "BackendError",
+          message: data.message || "Failed to update property",
+          status: res.status,
+          backendResponse: data,
+        },
+        { status: res.status },
+      );
+    }
+
+    return NextResponse.json({
+      label: "Success",
+      message: "Property updated",
+      data,
+    });
+  } catch (err: any) {
+    return NextResponse.json(
+      {
+        label: "Exception",
+        message: "Failed to update property",
+        error: err.message,
+      },
+      { status: 500 },
+    );
+  }
+}
+
+// =================== DELETE ===================
+export async function DELETE(req: NextRequest, context: RouteContext) {
+  const params = await context.params;
+  const { id } = params;
+
+  if (!id) {
+    return NextResponse.json(
+      { label: "BadRequest", message: "Property ID is missing" },
+      { status: 400 },
+    );
+  }
+
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
-  if (!token)
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
-  const body = await req.json();
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/properties/${id}`,
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+  if (!token) {
+    return NextResponse.json(
+      { label: "Unauthorized", message: "No token found" },
+      { status: 401 },
+    );
+  }
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/properties/${id}`,
+      {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
       },
-      body: JSON.stringify(body),
-    },
-  );
-  const data = await res.json();
-  return NextResponse.json(data, { status: res.status });
-};
+    );
 
-export const DELETE = async (_: NextRequest, context: any) => {
-  const { id } = context.params as { id: string };
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
-  if (!token)
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    const data = await res.json();
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/properties/${id}`,
-    {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
+    if (!res.ok) {
+      return NextResponse.json(
+        {
+          label: "BackendError",
+          message: data.message || "Failed to delete property",
+          status: res.status,
+          backendResponse: data,
+        },
+        { status: res.status },
+      );
+    }
+
+    return NextResponse.json({
+      label: "Success",
+      message: "Property deleted",
+      data,
+    });
+  } catch (err: any) {
+    return NextResponse.json(
+      {
+        label: "Exception",
+        message: "Failed to delete property",
+        error: err.message,
       },
-    },
-  );
-  const data = await res.json();
-  return NextResponse.json(data, { status: res.status });
-};
+      { status: 500 },
+    );
+  }
+}

@@ -4,22 +4,28 @@ import { FC, useEffect, useMemo, useState } from "react";
 import PropertyCard from "./PropertyCard";
 import Pagination from "./Pagination";
 import { IProperty } from "@/app/types/Properties";
+import { toast } from "sonner";
+import ConfirmModal from "@/components/main/ConfirmModal";
 
 interface Props {
   view: "grid" | "list";
   properties: IProperty[];
   onSelectProperty: (id: string) => void;
-  pageSize?: number; 
+  onDeleteProperty?: (id: string) => void;
+  pageSize?: number;
 }
 
 const PropertiesList: FC<Props> = ({
   view,
   properties,
   onSelectProperty,
+  onDeleteProperty,
   pageSize = 6,
 }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Sidebar state
   useEffect(() => {
@@ -39,6 +45,19 @@ const PropertiesList: FC<Props> = ({
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const handleDelete = (id: string) => {
+    setDeleteId(id);
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteId || !onDeleteProperty) return;
+
+    setIsDeleting(true);
+    await onDeleteProperty(deleteId);
+    setIsDeleting(false);
+    setDeleteId(null);
+  };
+
   return (
     <>
       {/* PROPERTY GRID */}
@@ -56,7 +75,7 @@ const PropertiesList: FC<Props> = ({
             view={view}
             collapsed={collapsed}
             onSelect={onSelectProperty}
-            onDelete={(id) => console.log("Delete property:", id)}
+            onDelete={() => handleDelete(property._id)}
           />
         ))}
       </div>
@@ -71,6 +90,13 @@ const PropertiesList: FC<Props> = ({
           onPageChange={handlePageChange}
         />
       )}
+      <ConfirmModal
+        isOpen={!!deleteId}
+        message="Are you sure you want to delete this property? This action cannot be undone."
+        onCancel={() => setDeleteId(null)}
+        onConfirm={confirmDelete}
+        isLoading={isDeleting}
+      />
     </>
   );
 };

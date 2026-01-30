@@ -96,7 +96,7 @@ const TestimonialCard: FC<Props> = ({
       {/* CONTENT */}
       <div
         className={`p-4 flex flex-col gap-2 ${
-          view === "list" ? "w-2/3 h-60" : "w-full"
+          view === "list" ? "w-2/3 h-60" : "w-full flex-1"
         }`}
       >
         {/* Text */}

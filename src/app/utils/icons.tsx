@@ -28,6 +28,7 @@ import {
   ShowerHead,
   Droplet,
   PlugZap,
+  Wifi,
 } from "lucide-react";
 import { ReactNode } from "react";
 
@@ -60,5 +61,6 @@ export const AMENITY_ICONS: Record<
   Fence: { icon: <Fence size={15} strokeWidth={1} />, keywords: ["fenced", "fenced compound", "compound"]},
   Balcony: { icon: <Fence size={15} strokeWidth={1} />, keywords: ["balcony"]},
   Water: { icon: <Droplet size={15} strokeWidth={1} />, keywords: ["water", "water supply"]},
-  Generator: { icon: <PlugZap size={15} strokeWidth={1} />, keywords: ["backup generator", "generator"] }
+  Generator: { icon: <PlugZap size={15} strokeWidth={1} />, keywords: ["backup generator", "generator"] }, 
+  Wifi: { icon: <Wifi size={15} strokeWidth={1} />, keywords: ["wifi", "high-speed internet", "internet"]}
 };

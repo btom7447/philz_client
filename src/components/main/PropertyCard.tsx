@@ -107,7 +107,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, view = "grid" }) 
       >
         <div className="flex flex-col p-4">
            <h3
-            className="text-xl font-semibold">{property.title}</h3>
+            className="text-xl font-semibold truncate">{property.title}</h3>
           <div className="flex items-start gap-2">
             <MapPin
               size={20}

@@ -162,7 +162,7 @@ const PropertyForm: FC<Props> = ({
           case "video":
             uploadFormData.append("videos", f.file);
             break;
-          case "floorplan":
+          case "floorPlan":
             uploadFormData.append("floorPlans", f.file);
             break;
         }
@@ -184,7 +184,7 @@ const PropertyForm: FC<Props> = ({
         ...normalized,
         images: files.filter((f: any) => f.type === "image"),
         videos: files.filter((f: any) => f.type === "video"),
-        floorPlans: files.filter((f: any) => f.type === "floorplan"),
+        floorPlans: files.filter((f: any) => f.type === "floorPlan"),
       };
 
       propertyDomainSchema.parse(payload);

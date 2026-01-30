@@ -219,16 +219,16 @@ const TestimonialFormModal: FC<Props> = ({
           <button
             onClick={onClose}
             disabled={loading}
-            className={`flex items-center gap-2 px-5 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition disabled:opacity-50`}
+            className={`flex items-center gap-2 px-5 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition disabled:opacity-50 cursor-pointer`}
           >
-            <Save className="w-5 h-5" /> Cancel
+            <Save size={16} strokeWidth={1} /> Cancel
           </button>
 
           <button
             onClick={handleSubmit}
             disabled={loading}
             className={`flex items-center gap-2 px-5 py-2 rounded-lg transition
-              ${loading ? "bg-purple-200 text-purple-700 border border-purple-600 cursor-not-allowed" : "bg-purple-700 hover:bg-purple-800 text-white"}
+              ${loading ? "bg-purple-200 text-purple-700 border border-purple-600 cursor-not-allowed" : "bg-purple-700 hover:bg-purple-800 text-white cursor-pointer"}
             `}
           >
             {loading && <ClipLoader size={18} color="#fff" />}
@@ -239,7 +239,7 @@ const TestimonialFormModal: FC<Props> = ({
               : testimonial
                 ? "Update"
                 : "Create"}
-            <SendHorizonal className="w-5 h-5" />
+            <SendHorizonal size={16} strokeWidth={1} />
           </button>
         </div>
       </div>

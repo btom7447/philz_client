@@ -10,7 +10,7 @@ interface Props {
 
 const MediaTab: FC<Props> = ({ files, setFiles }) => {
   const updateFiles = (
-    type: "image" | "video" | "floorplan",
+    type: "image" | "video" | "floorPlan",
     newFiles: UploadFile[],
   ) => {
     setFiles([...files.filter((f) => f.type !== type), ...newFiles]);
@@ -32,9 +32,9 @@ const MediaTab: FC<Props> = ({ files, setFiles }) => {
       />
       <FileUploadInput
         label="Floor Plan"
-        mode="floorplan"
-        files={files.filter((f) => f.type === "floorplan")}
-        setFiles={(newFiles) => updateFiles("floorplan", newFiles)}
+        mode="floorPlan"
+        files={files.filter((f) => f.type === "floorPlan")}
+        setFiles={(newFiles) => updateFiles("floorPlan", newFiles)}
       />
     </div>
   );

@@ -8,11 +8,13 @@ import PropertiesDashboardMap from "@/components/admin/properties/PropertiesDash
 import { useProperties } from "@/app/admin/hooks/useAdminData";
 import EmptySlate from "@/components/main/EmptySlate";
 import { ClipLoader } from "react-spinners";
+import { toast } from "sonner";
 
 export default function PropertiesDashboard() {
   const { data, isLoading, isError, error } = useProperties();
-  const properties: IProperty[] = Array.isArray(data) ? data : [];
-
+  const [properties, setProperties] = useState<IProperty[]>(
+    Array.isArray(data) ? data : [],
+  );
   const [view, setView] = useState<"grid" | "list">("grid");
   const [searchQuery, setSearchQuery] = useState("");
   const [propertyType, setPropertyType] = useState<
@@ -22,6 +24,11 @@ export default function PropertiesDashboard() {
   const [selectedPropertyId, setSelectedPropertyId] = useState<string | null>(
     null,
   );
+
+  // Sync local state when data changes (initial load / refetch)
+  useMemo(() => {
+    if (Array.isArray(data)) setProperties(data);
+  }, [data]);
 
   /** 🔎 Filtering logic */
   const filteredProperties = useMemo(() => {
@@ -39,6 +46,21 @@ export default function PropertiesDashboard() {
       return matchesSearch && matchesType && matchesStatus;
     });
   }, [properties, searchQuery, propertyType, status]);
+
+  const handleDeleteProperty = async (id: string) => {
+    try {
+      const res = await fetch(`/api/properties/${id}`, { method: "DELETE" });
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.message || "Delete failed");
+
+      toast.success("Property deleted!");
+      // Remove property from local state
+      setProperties((prev) => prev.filter((p) => p._id !== id));
+    } catch (err: any) {
+      toast.error(err.message || "Failed to delete property");
+    }
+  };
 
   if (isLoading)
     return (
@@ -94,12 +116,13 @@ export default function PropertiesDashboard() {
               view={view}
               properties={filteredProperties}
               onSelectProperty={setSelectedPropertyId}
+              onDeleteProperty={handleDeleteProperty}
             />
           )}
         </div>
 
         {!hasNoProperties && !hasNoResults && (
-          <div className="px-5 hidden 2xl:block">
+          <div className="px-5 hidden 2xl:block z-0">
             <div className="rounded-lg overflow-hidden w-1/3 min-w-120 h-full flex-1">
               <PropertiesDashboardMap
                 properties={filteredProperties}

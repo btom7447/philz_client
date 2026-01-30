@@ -1,4 +1,4 @@
-export type UploadType = "image" | "video" | "floorplan";
+export type UploadType = "image" | "video" | "floorPlan";
 
 export interface UploadFile {
   file: File | null;

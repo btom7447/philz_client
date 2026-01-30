@@ -72,7 +72,7 @@ const PropertyCard: FC<Props> = ({ property, view, onSelect, onDelete }) => {
       {/* Content */}
       <div
         className={`flex flex-col justify-between p-4 ${
-          view === "list" ? "flex-1" : ""
+          view === "list" ? "flex-1" : "flex-1"
         }`}
       >
         <div className="border-b border-gray-300">
@@ -108,7 +108,7 @@ const PropertyCard: FC<Props> = ({ property, view, onSelect, onDelete }) => {
               e.stopPropagation();
               router.push(`/admin/properties/${property._id}`);
             }}
-            className="cursor-pointer flex items-center gap-1 px-5 py-1 rounded-lg bg-gray-100 text-gray-700 hover:bg-purple-100 transition"
+            className="cursor-pointer flex items-center gap-1 px-5 py-1 rounded-lg border border-purple-500 bg-gray-100 text-purple-500 hover:bg-purple-100 transition"
           >
             <SquarePen size={18} strokeWidth={1} />
             Edit
@@ -119,7 +119,7 @@ const PropertyCard: FC<Props> = ({ property, view, onSelect, onDelete }) => {
               e.stopPropagation();
               onDelete(property._id);
             }}
-            className="cursor-pointer flex items-center gap-1 px-3 py-1 rounded-lg bg-gray-100 text-gray-700 hover:bg-red-100 transition"
+            className="cursor-pointer flex items-center gap-1 px-3 py-1 rounded-lg border border-red-500 bg-gray-100 text-red-500 hover:bg-red-100 transition"
           >
             <Trash2 size={16} strokeWidth={1} />
             Delete

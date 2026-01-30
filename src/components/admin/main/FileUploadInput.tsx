@@ -7,13 +7,13 @@ export interface UploadFile {
   file: File | null; // local file
   url: string; // preview URL
   public_id?: string; // existing Cloudinary file ID
-  type: "image" | "video" | "floorplan";
+  type: "image" | "video" | "floorPlan";
 }
 
 interface Props {
   files: UploadFile[];
   setFiles: (files: UploadFile[]) => void;
-  mode: "image" | "video" | "floorplan";
+  mode: "image" | "video" | "floorPlan";
   label: string;
   error?: string;
 }
@@ -56,7 +56,7 @@ const FileUploadInput: FC<Props> = ({
         <div className="flex gap-2 overflow-x-auto pb-2">
           {files.map((f, i) => (
             <div key={i} className="relative shrink-0">
-              {mode === "image" ? (
+              {mode === "image" || mode === "floorPlan" ? (
                 <img
                   src={f.url}
                   alt={f.file?.name || "existing"}
