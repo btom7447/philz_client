@@ -13,6 +13,7 @@ import Header from "components/main/Header";
 import Footer from "components/main/Footer";
 import { usePathname } from "next/navigation";
 import { Providers } from "./providers";
+import CompareWidget from "@/components/main/CompareWidget";
 
 export default function RootLayout({
   children,
@@ -43,6 +44,7 @@ const showHeaderFooter = !(
             {children}
           </div>
           {showHeaderFooter && <Footer />}
+          <CompareWidget />
           <Toaster position="top-right" richColors />
         </Providers>
         <div id="modal-root" />

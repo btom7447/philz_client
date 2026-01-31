@@ -9,6 +9,8 @@ import Modal from "react-modal";
 import { optimizeCloudinary } from "@/app/utils/optimizeCloudinary";
 import AmenityIcon from "./AmenityIcon";
 import Link from "next/link";
+  import { toggleCompare, getCompareIds } from "@/app/utils/compareUtils";
+
 
 interface PropertyCardProps {
   property: IProperty;
@@ -21,6 +23,20 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, view = "grid" }) 
   const [modalType, setModalType] = useState<"images" | "videos" | null>(null);
   const isResidential = ["house", "apartment"].includes(property.propertyType);
   const isCommercial = ["office", "shop"].includes(property.propertyType);
+
+  useEffect(() => {
+    const handleCompareUpdate = () => {
+      const compare = getCompareIds();
+      setIsCompare(compare.includes(property._id));
+    };
+
+    // Listen for the global compareUpdate event
+    window.addEventListener("compareUpdate", handleCompareUpdate);
+
+    // Cleanup
+    return () =>
+      window.removeEventListener("compareUpdate", handleCompareUpdate);
+  }, [property._id]);
 
   const amenities = property.amenities ?? [];
   const hasImage = property.images && property.images.length > 0;
@@ -52,8 +68,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, view = "grid" }) 
   };
 
   return (
-    <Link
-      href={href}
+    <div
       className={`relative bg-white shadow-lg rounded-lg transition cursor-pointer overflow-hidden h-full
     ${view === "list" ? "flex" : "flex flex-col"}`}
     >
@@ -106,8 +121,9 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, view = "grid" }) 
         }`}
       >
         <div className="flex flex-col p-4">
-           <h3
-            className="text-xl font-semibold truncate">{property.title}</h3>
+          <Link href={href} className="text-xl font-semibold truncate">
+            {property.title}
+          </Link>
           <div className="flex items-start gap-2">
             <MapPin
               size={20}
@@ -185,11 +201,10 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, view = "grid" }) 
           </button>
 
           <button
-            onClick={() => {
-              setIsCompare((v) => {
-                toggleLocalStorage("compare", !v);
-                return !v;
-              });
+            onClick={(e) => {
+              e.stopPropagation();
+              const newState = toggleCompare(property._id);
+              setIsCompare(newState);
             }}
             className={`flex-1 flex items-center justify-center gap-1 py-3 text-sm shadow-sm cursor-pointer hover:bg-purple-100 ${isCompare ? "text-purple-700 font-medium" : "text-gray-500"}`}
           >
@@ -231,7 +246,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, view = "grid" }) 
           videos={property.videos}
         />
       )}
-    </Link>
+    </div>
   );
 };
 

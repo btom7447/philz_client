@@ -1,5 +1,7 @@
+import FeaturedProperties from "@/components/hero/FeaturedProperties";
 import HeroSection from "@/components/hero/HeroSection";
 import RecentProperties from "@/components/hero/RecentPropereties";
+import TrustPartners from "@/components/hero/TrustedPartners";
 import SalesBanner from "@/components/main/SalesBanner";
 import TestimonialSection from "@/components/main/TestimonialSection";
 
@@ -26,7 +28,9 @@ export default function HomePage() {
         <HeroSection />
         <RecentProperties />
       </div>
+      <FeaturedProperties />
       <TestimonialSection />
+      <TrustPartners />
       <SalesBanner />
     </>
   );

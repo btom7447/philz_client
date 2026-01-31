@@ -119,12 +119,12 @@ export default function Header() {
         </div>
 
         <div className="hidden md:flex items-center gap-5">
-          <Link
+          {/* <Link
             href="/book-tour"
             className="px-12 py-4 rounded-lg bg-purple-700 text-white text-xl font-light hover:bg-purple-800 transition"
           >
             Book Tour
-          </Link>
+          </Link> */}
 
           {/* User icon triggers dropdown */}
           <div className="relative group">

@@ -1,4 +1,6 @@
+import FaqSection from "@/components/main/FaqSection";
 import Breadcrumb from "../../components/main/Breadcrumb";
+import SalesBanner from "@/components/main/SalesBanner";
 
 export const metadata = {
   title: "FAQs | Philz Properties",
@@ -6,21 +8,22 @@ export const metadata = {
     "Find answers to frequently asked questions about buying, renting, and listing properties on Philz Properties.",
 };
 
-export default function ContactPage() {
+export default function FaqsPage() {
   return (
     <>
       <Breadcrumb
-        title="Contact Us"
+        title="FAQs"
         //   parent={{
         //     label: "Parent",
         //     href: "/parent",
         //   }}
-        current="Contact"
+        current="FAQs"
         backgroundImage="/breadcrumb/page.jpg"
       />
-      <div className="px-5 xl:px-0 ">
-
+      <div className="max-w-7xl mx-auto py-10 px-5 xl:px-0">
+        <FaqSection />
       </div>
+      <SalesBanner />
     </>
   );
 }
