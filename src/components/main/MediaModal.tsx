@@ -137,7 +137,7 @@ const MediaModal: React.FC<MediaModalProps> = ({
                     src={optimizeCloudinary(item.url, undefined, "video")}
                     controls
                     preload="metadata"
-                    className="max-h-[80vh] w-full object-contain"
+                    className="max-h-[80dvh] w-full object-contain"
                   />
                 )}
               </div>

@@ -226,7 +226,16 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, view = "grid" }) 
           <button
             onClick={() => setModalType("videos")}
             disabled={!property.videos?.length}
-            className={`flex-1 flex items-center justify-center gap-1 py-3 text-sm shadow-sm cursor-pointer hover:bg-purple-100 ${modalType === "videos" ? "text-purple-700 font-medium" : "text-gray-500"}`}
+            className={`
+              flex-1 flex items-center justify-center gap-1 py-3 text-sm shadow-sm
+              transition
+              ${
+                property.videos?.length
+                  ? "cursor-pointer hover:bg-purple-100 text-gray-500"
+                  : "cursor-not-allowed opacity-40 text-gray-400"
+              }
+              ${modalType === "videos" ? "text-purple-700 font-medium" : ""}
+            `}
           >
             <Video
               size={18}

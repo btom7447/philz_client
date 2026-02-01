@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import { motion } from "framer-motion";
 
 interface Service {
   title: string;
@@ -8,7 +8,7 @@ interface Service {
   description: string;
 }
 
-interface ServicesSlideProps {
+interface ServicesProps {
   services?: Service[];
 }
 
@@ -17,67 +17,87 @@ const defaultServices: Service[] = [
     title: "Building",
     highlight: "Modern. Functional. Enduring.",
     description:
-      "We design and construct modern, functional, and high-quality buildings that meet today’s lifestyle demands while maintaining long-term structural integrity. Every project is delivered with precision, sustainability, and future growth in mind.",
+      "We design and construct high-quality buildings that blend modern aesthetics with long-term structural integrity.",
   },
   {
     title: "Selling",
     highlight: "Premium & Affordable Properties.",
     description:
-      "We provide access to carefully verified premium and affordable properties in strategic locations. Our transparent selling process ensures clients make confident decisions whether buying for living or investment purposes.",
+      "Carefully verified properties in strategic locations, delivered through a transparent and stress-free selling process.",
   },
   {
     title: "Management",
     highlight: "Peace of Mind. Sustainable Value.",
     description:
-      "Our property management services protect and enhance asset value through professional tenant handling, maintenance oversight, and long-term planning — giving owners complete peace of mind.",
+      "Professional tenant handling, maintenance oversight, and asset protection that preserves long-term value.",
   },
   {
     title: "Investment Advisory",
     highlight: "Smart Decisions. Profitable Outcomes.",
     description:
-      "We guide investors through profitable real estate opportunities using market insights, risk assessment, and strategic planning tailored to short- and long-term financial goals.",
+      "Data-driven insights and strategic guidance to help investors maximize real estate returns with confidence.",
   },
   {
     title: "Inspection & Verification",
     highlight: "Transparent. Secure. Trusted.",
     description:
-      "We conduct thorough property inspections and verification to ensure authenticity, compliance, and quality — helping clients invest with confidence and zero uncertainty.",
+      "Thorough inspections and verification to ensure every property meets legal, structural, and quality standards.",
   },
 ];
 
-export default function ServicesSlide({
+export default function Services({
   services = defaultServices,
-}: ServicesSlideProps) {
+}: ServicesProps) {
   return (
-    <section className="relative py-24 bg-gray-50">
-      <div className="max-w-[90vw] mx-auto">
-        {/* Sticky horizontal scroll wrapper */}
-        <div className="relative h-[400px] md:h-[500px]">
-          <div
-            className="sticky top-[30dvh] flex gap-16 md:gap-24 items-center"
-            style={{ width: "max-content" }}
-          >
-            {services.map((service, index) => (
-              <div
-                key={service.title}
-                className="flex-shrink-0 w-72 md:w-96 p-6 bg-white rounded-xl shadow-lg"
-                style={{
-                  top: index % 2 === 0 ? "0px" : "40px", // zig-zag effect
-                  position: "relative",
-                }}
-              >
-                <h3 className="text-xl md:text-2xl font-lora font-semibold mb-2 text-center">
-                  {service.title}
-                </h3>
-                <h4 className="text-indigo-600 font-lora font-medium mb-2 text-center">
-                  {service.highlight}
-                </h4>
-                <p className="text-gray-700 text-sm md:text-base font-roboto text-center">
-                  {service.description}
-                </p>
-              </div>
-            ))}
-          </div>
+    <section className="w-full pb-10">
+      <div className="max-w-7xl mx-auto px-5 xl:px-0">
+        {/* Section header */}
+        <div className="mb-14" data-aos="fade-down">
+          <h1 className="text-4xl font-lora font-light text-black leading-tight">
+            What We Do <br />
+            <span className="text-5xl md:text-6xl font-semibold text-purple-800">
+              Our Services
+            </span>
+          </h1>
+        </div>
+
+        {/* Services grid */}
+        <div className="grid gap-5 sm:grid-cols-2">
+          {services.map((service, index) => (
+            <motion.div
+              key={service.title}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.05 }}
+              className="
+                group relative
+                bg-white
+                rounded-lg
+                border border-gray-400
+                p-5
+                transition
+                hover:border-l-purple-700
+                hover:shadow-sm
+                overflow-hidden
+              "
+            >
+              {/* Accent line */}
+              <div className="absolute left-0 top-0 h-full w-1 bg-purple-600 rounded-l-xl opacity-0 group-hover:opacity-100 transition" />
+
+              <h3 className="text-2xl font-lora font-semibold mb-2">
+                {service.title}
+              </h3>
+
+              <p className="text-purple-600 font-medium text-lg mb-4">
+                {service.highlight}
+              </p>
+
+              <p className="text-gray-600 text-lg leading-relaxed">
+                {service.description}
+              </p>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

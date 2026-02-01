@@ -83,10 +83,12 @@ export default function CompareTable() {
 
   if (!properties.length) {
     return (
-      <EmptySlate
-        title="No properties selected"
-        subtitle="Select properties to compare and they will appear here."
-      />
+      <div className="my-20">
+        <EmptySlate
+          title="No properties selected"
+          subtitle="Select properties to compare and they will appear here."
+        />
+      </div>
     );
   }
 
