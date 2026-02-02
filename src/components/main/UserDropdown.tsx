@@ -14,6 +14,7 @@ import {
   Building2,
   HouseHeart,
   Binoculars,
+  Calendar,
 } from "lucide-react";
 
 interface UserDropdownProps {
@@ -88,7 +89,7 @@ export default function UserDropdown({
     {
       href: tourRequestLink,
       label: "Tour Requests",
-      icon: <Binoculars className="w-6 h-6 mr-4" strokeWidth={1} />,
+      icon: <Calendar className="w-6 h-6 mr-4" strokeWidth={1} />,
     },
     {
       href: listingsLink,

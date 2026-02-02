@@ -1,13 +1,15 @@
+import PaymentDashboard from "./PaymentDashboard";
+
 export const metadata = {
   title: "Payment | Admin | Philz Properties",
   description:
-    "Get in touch with Philz Properties for inquiries, support, or partnership opportunities. We’re here to help you find the right property.",
+    "Manage and track all payment transactions, settlements, and customer payment data securely through Philz Properties admin dashboard integrated with Paystack.",
 };
 
 export default function PaymentPage() {
   return (
     <>
-      <h1>Admin Payment</h1>
+      <PaymentDashboard />
     </>
   );
 }
