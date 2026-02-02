@@ -25,13 +25,14 @@ export interface ITourRequestPopulated {
   tourTime: string;
   requestedAt: string;
   rescheduled?: boolean;
+  meetLink?: string;
 
   propertyId: {
     _id: string;
     title: string;
     address: string;
     propertyType: string;
-    images?: string[];
+    images?: { url: string; public_id?: string; _id?: string }[];
   };
 
   userId: {

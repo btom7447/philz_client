@@ -7,6 +7,7 @@ import PropertiesList from "@/components/admin/properties/PropertiesList";
 import PropertiesDashboardMap from "@/components/admin/properties/PropertiesDashboardMap";
 import { useProperties } from "@/app/admin/hooks/useAdminData";
 import EmptySlate from "@/components/main/EmptySlate";
+import { ClipLoader } from "react-spinners";
 
 export default function SoldPropertiesDashboard() {
   const { data: properties = [], isLoading } = useProperties();
@@ -42,8 +43,12 @@ export default function SoldPropertiesDashboard() {
     });
   }, [soldProperties, searchQuery, propertyType, status]);
 
-  if (isLoading) return <div>Loading dashboard...</div>;
-
+if (isLoading)
+  return (
+    <div className="flex items-center justify-center h-screen">
+      <ClipLoader size={50} color="#7c3aed" />
+    </div>
+  );
   // Cases
   const hasNoSoldProperties = soldProperties.length === 0;
   const hasNoFilteredResults =

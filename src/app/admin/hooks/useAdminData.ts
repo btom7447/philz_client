@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetcher } from "@/app/lib/fetcher";
 import { IProperty } from "@/app/types/Properties";
 import { ITestimonial } from "@/app/types/Testimonial";
+import { ITourRequestPopulated } from "@/app/types/Tour";
 
 // -------------------- PROPERTIES --------------------
 export function useProperties() {
@@ -28,14 +29,20 @@ export function useTestimonials() {
 }
 
 // -------------------- TOURS --------------------
+
 export function useTours() {
-  return useQuery({
+  return useQuery<{
+    data: ITourRequestPopulated[];
+    meta: { page: number; limit: number; total: number };
+  }>({
     queryKey: ["tours"],
-    queryFn: () => fetcher("/api/tours"),
+    queryFn: async () => {
+      const res = await fetcher("/api/tours");
+      return res;
+    },
     staleTime: 5 * 60 * 1000,
   });
 }
-
 // -------------------- INQUIRIES --------------------
 export function useInquiries() {
   return useQuery({

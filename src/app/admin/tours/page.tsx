@@ -1,13 +1,15 @@
+import TourDashboard from "@/components/admin/tour/TourDashboard";
+
 export const metadata = {
   title: "Tours | Admin | Philz Properties",
   description:
-    "Get in touch with Philz Properties for inquiries, support, or partnership opportunities. We’re here to help you find the right property.",
+    "Admin dashboard to manage and review all property tour requests. Approve, reject, or delete tours and filter by type.",
 };
 
-export default function PropertiesPage() {
+export default function ToursPage() {
   return (
     <>
-      <h1>Admin Tour Requests</h1>
+      <TourDashboard />
     </>
   );
 }
