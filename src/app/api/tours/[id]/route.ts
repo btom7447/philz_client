@@ -1,12 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
-export async function DELETE(
-  req: NextRequest,
-  context: { params: { id: string } },
-) {
-  const { id } = context.params;
+type RouteContext = {
+  params: Promise<{ id: string }>;
+};
 
+export async function PATCH(req: NextRequest, context: RouteContext) {
+  // Unwrap the params promise
+  const params = await context.params;
+  const { id } = params;
+
+  // Get cookies
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
 
@@ -16,7 +20,7 @@ export async function DELETE(
       { status: 401 },
     );
   }
-
+  
   const backendUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/tours/${id}`;
 
   try {
