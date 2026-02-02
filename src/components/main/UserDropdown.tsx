@@ -69,9 +69,9 @@ export default function UserDropdown({
   // Authenticated
   const dashboardLink = user.role === "admin" ? "/admin" : "/user";
   const tourRequestLink =
-    user.role === "admin" ? "/admin/tour-request" : "/user/tour-request";
+    user.role === "admin" ? "/admin/tours" : "/user/tours";
   const listingsLink =
-    user.role === "admin" ? "/admin/listings" : "/user/listing/saved";
+    user.role === "admin" ? "/admin/properties" : "/user/properties/saved";
   const ListingsIcon = user.role === "admin" ? Building2 : HouseHeart;
 
   const links = [
@@ -80,11 +80,11 @@ export default function UserDropdown({
       label: "Dashboard",
       icon: <LayoutDashboard className="w-6 h-6 mr-4" strokeWidth={1} />,
     },
-    {
-      href: "/profile",
-      label: "Profile",
-      icon: <UserIcon className="w-6 h-6 mr-4" strokeWidth={1} />,
-    },
+    // {
+    //   href: "/profile",
+    //   label: "Profile",
+    //   icon: <UserIcon className="w-6 h-6 mr-4" strokeWidth={1} />,
+    // },
     {
       href: tourRequestLink,
       label: "Tour Requests",
@@ -92,7 +92,7 @@ export default function UserDropdown({
     },
     {
       href: listingsLink,
-      label: user.role === "admin" ? "Listings" : "Saved Listings",
+      label: user.role === "admin" ? "Properties" : "Saved Properties",
       icon: <ListingsIcon className="w-6 h-6 mr-4" strokeWidth={1} />,
     },
     {
